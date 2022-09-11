@@ -1,50 +1,34 @@
-// var headTitle = document.getElementById("header-title");
-// headTitle.style.borderBottom = 'solid 3px #000' ;
-// var seletingAdd = document.getElementsByClassName('title');
-// console.log(seletingAdd[0]); 
-// seletingAdd[0].textContent = "Changing text Content" ;
-// seletingAdd[0].style.fontWeight = 'bold'  ;
-// seletingAdd[0].style.color = 'green' ; 
-
-// 3rd Element in the list make the background green
-// Get element by tag Name and store in a variable 
-
-//var li = document.getElementsByTagName('li');
-//li[2].style.backgroundColor = 'green' ; 
-
-
-// Make all the elements in the list have bold color font 
-// For selecint all the element from 1 to end we have to use for loop 
-
-//for (let i = 0 ; i < li.length ; i++) {
-//    li[i].style.fontWeight = 'bold' ; 
-//}
-
-
-// Getting by Class Name 
-// var list1 = document.getElementsByClassName("list-group");
-// var list2 = list1.items.lastElementChild ;
-// list2.style.color = 'green' ; 
-
-// Getting by Tag Name 
-
-//var List3 = document.getElementsByTagName('item5')
-// List3.style.color = 'green' ; 
-
-// // // var queery1 = document.querySelector(".list-group-item:nth-child(2)") ; 
-// // // var queery2 = document.querySelector(".list-group-item:nth-child(3)") ; 
-// // // queery1.style.backgroundColor = 'green' ; 
-// // // console.log(queery1);
-
-// // queery2.style.color = 'white' ;
-// //queery2.style.display = 'none' ;
-
-// var titles = document.querySelectorAll('.title') ; 
-// console.log(titles) ; 
-// titles[1].textContent = "SUPERBBBB"
-
-
-// for (let i = 0; i<odd.length; i++) {
-//     odd[i].style.backgroundColor = 'green' ; 
-// }
-
+var x = document.getElementById("main-header").parentElement.nodeName;
+// console.log(x);
+// const element = document.getElementById("main-header")
+// let html = element.lastElementChild.innerHTML;
+// let html1 = element.lastChild.innerHTML;
+// console.log(html);
+// const node = document.createElement("li");
+// const textnode = document.createTextNode("Water");
+// node.appendChild(textnode);
+// document.getElementById("items").appendChild(node);
+// let text = document.getElementById("items").firstElementChild;
+// console.log(text);
+// let next = document.getElementById("items").nextSibling;
+// console.log(next);
+// let text1 = text.nextElementSibling;
+// console.log(text1);
+// var text3 = document.getElementById("items").previousSibling;
+// console.log(text3);
+// let text = document.getElementById("items").previousElementSibling;
+// console.log(text);
+// const para = document.createElement("p");
+// para.textContent = "This is a paragraph." ; 
+// document.getElementById("myDIV").appendChild(para);
+// x.setAttribute("class", "democlass");
+// const h1 = document.createElement("h1");
+// const textNode = document.createTextNode("Hello World");
+// h1.appendChild(textNode);
+// const para = document.createElement("p");
+// const textNode1 = document.createTextNode("Hello World");
+// para.appendChild(textNode);
+// const node = document.createElement("li1");
+// const textnode = document.createTextNode("Water");
+// node.appendChild(textnode);
+// document.getElementById("myList").appendChild(node);
