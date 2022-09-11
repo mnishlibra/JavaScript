@@ -32,3 +32,5 @@ function onSubmit (e) {
     alert('Success');
     }
 }
+
+console.log("Just Creating");
