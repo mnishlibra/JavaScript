@@ -1,13 +1,26 @@
 var form = document.getElementById('addForm');
+var form_discription = document.getElementById('addForm');
 var itemList = document.getElementById('items');
 var filter = document.getElementById('filter');
+var li = document.createElement('li');
 
 // Form submit event
 form.addEventListener('submit', addItem);
+// form_discription.addEventListener('submit', addItem);
+
 // Delete event
 itemList.addEventListener('click', removeItem);
 // Filter event
 filter.addEventListener('keyup', filterItems);
+
+var li = document.getElementsByClassName("list-group-item");
+
+for(let i=0 ; i < li.length; i++) {
+  var editBtn = document.createElement('button'); 
+  editBtn.className = 'btn-sm float-right';
+  editBtn.appendChild(document.createTextNode('EDIT'));
+  li[i].appendChild(editBtn);
+}
 
 // Add item
 function addItem(e){
@@ -15,6 +28,8 @@ function addItem(e){
 
   // Get input value
   var newItem = document.getElementById('item').value;
+  var newItem_discription = document.getElementById('form_discription').value;
+  console.log(newItem_discription);
 
   // Create new li element
   var li = document.createElement('li');
@@ -22,22 +37,24 @@ function addItem(e){
   li.className = 'list-group-item';
   // Add text node with input value
   li.appendChild(document.createTextNode(newItem));
-
+  li.appendChild(document.createTextNode(newItem_discription));
+  
   // Create del button element
   var deleteBtn = document.createElement('button');
   var editBtn = document.createElement('button');
 
   // Add classes to del button
   deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
-  editBtn.className = 'btn btn-danger btn-sm float-right delete';
+  editBtn.className = 'btn-sm float-right';
 
   // Append text node
   deleteBtn.appendChild(document.createTextNode('X'));
-  editBtn.appendChild(document.createTextNode('/'));
+  editBtn.appendChild(document.createTextNode('EDIT'));
 
   // Append button to li
   li.appendChild(deleteBtn);
   li.appendChild(editBtn);
+  
 
   // Append li to list
   itemList.appendChild(li);
@@ -54,6 +71,7 @@ function removeItem(e){
   }
 }
 
+
 // Filter Items
 function filterItems(e){
   // convert text to lowercase
@@ -63,7 +81,8 @@ function filterItems(e){
   // Convert to an array
   Array.from(items).forEach(function(item){
     var itemName = item.firstChild.textContent;
-    if(itemName.toLowerCase().indexOf(text) != -1){
+    const discription  = item.childNodes[1].textContent;
+    if(itemName.toLowerCase().indexOf(text) != -1 || discription.toLowerCase().indexOf(text) != -1) {
       item.style.display = 'block';
     } else {
       item.style.display = 'none';
