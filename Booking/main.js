@@ -35,14 +35,14 @@ function onSubmit(e) {
         name : nameInput.value,
         email : emailInput.value    
     }
-      
-          
-      window.localStorage.setItem("Users ", JSON.stringify(Users));
-         
+
+    localStorage.setItem("User Details:  " + " " + emailInput.value, JSON.stringify(Users));
+
     // localStorage.setItem( nameInput.value , emailInput.value ) ; }
 
     // Clear fields
     nameInput.value = '' ;
     emailInput.value = '';
+
   }
   }
