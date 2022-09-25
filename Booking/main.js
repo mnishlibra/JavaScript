@@ -31,8 +31,10 @@ function onSubmit(e) {
     // Append to ul
     userList.appendChild(li);
 
+    localStorage.setItem( nameInput.value , emailInput.value ) ; }
+
     // Clear fields
-    nameInput.value = '';
+    nameInput.value = '' ;
     emailInput.value = '';
+
   }
-}
