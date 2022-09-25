@@ -31,10 +31,18 @@ function onSubmit(e) {
     // Append to ul
     userList.appendChild(li);
 
-    localStorage.setItem( nameInput.value , emailInput.value ) ; }
+    var Users = {
+        name : nameInput.value,
+        email : emailInput.value    
+    }
+      
+          
+      window.localStorage.setItem("Users ", JSON.stringify(Users));
+         
+    // localStorage.setItem( nameInput.value , emailInput.value ) ; }
 
     // Clear fields
     nameInput.value = '' ;
     emailInput.value = '';
-
+  }
   }
