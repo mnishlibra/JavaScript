@@ -46,3 +46,11 @@ function onSubmit(e) {
 
   }
   }
+  function showNewUserOnScreen(user){
+    document.getElementById('email').value = '';
+    document.getElementById('username').value = '';
+    document.getElementById('phonenumber').value ='';
+    // console.log(localStorage.getItem(user.emailId))
+    if(localStorage.getItem(user.email) !== null){
+        removeUserFromScreen(user.email)
+    }

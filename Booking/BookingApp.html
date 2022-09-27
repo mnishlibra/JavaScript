@@ -1,0 +1,167 @@
+<html>
+    <head>
+        <h2>Appointment Booking App</h2>
+    </head>
+    <body>
+        <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                header {
+                     background: #f4f4f4;
+                     padding: 1rem;
+                     text-align: center;
+                }
+                
+                body {
+                    font-family: Arial, Helvetica, sans-serif;
+                    line-height: 1.6;
+                }
+                
+                ul {
+                    list-style: none;
+                }
+                
+                ul li {
+                    padding: 5px;
+                    background: #f4f4f4;
+                    margin: 5px 0;
+                }
+
+                #my-form {
+                    padding: 2rem;
+                    background: #f4f4f4;
+                }
+                
+                #my-form label {
+                    display: block;
+                }
+                
+                #my-form input[type='text'] {
+                    width: 100%;
+                    padding: 8px;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+                    border: 1px solid #ccc;
+                    text-align: center;
+                }
+                
+                .btn {
+                    display: block;
+                    width: 100%;
+                    padding: 10px 15px;
+                    border: 0;
+                    background: #333;
+                    color: #fff;
+                    border-radius: 5px;
+                    margin: 5px 0;
+                }
+                
+                .btn:hover {
+                    background: #444;
+                }
+                
+                .bg-dark {
+                    background: #333;
+                    color: #fff;
+                }
+                
+                .error {
+                    background: orangered;
+                    color: #fff;
+                    padding: 5px;
+                    margin: 5px;
+                }
+        </style>
+        <form  onsubmit="saveToLocalStorage(event)">    
+            <label> Name</label>
+            <input id='username' type="text" name="username"  required/> <br><br>
+            <label> EmailId</label>
+            <input id='email' type="email" name="emailId"  required/> <br><br>
+            <label> Phone Number</label>
+            <input id='phonenumber' type="tel" name="phonenumber" /> <br><br>
+            <button> Submit </button>
+        </form>
+        <ul id='listOfUsers'></ul>
+        <script>
+            function saveToLocalStorage(event) {
+                event.preventDefault();
+                const name = event.target.username.value;
+                const email = event.target.emailId.value;
+                const phonenumber = event.target.phonenumber.value;
+                // localStorage.setItem('name', name);
+                // localStorage.setItem('email', email);
+                // localStorage.setItem('phonenumber', phonenumber)
+                const obj = {
+                    name,
+                    email,
+                    phonenumber
+                }
+                localStorage.setItem(obj.email, JSON.stringify(obj))
+                showNewUserOnScreen(obj)
+            }
+
+            window.addEventListener("DOMContentLoaded", () => {
+                const localStorageObj = localStorage;
+                const localstoragekeys  = Object.keys(localStorageObj)
+
+                for(var i =0; i< localstoragekeys.length; i++){
+                    const key = localstoragekeys[i]
+                    const userDetailsString = localStorageObj[key];
+                    const userDetailsObj = JSON.parse(userDetailsString);
+                    showNewUserOnScreen(userDetailsObj)
+                }
+            })
+
+            function showNewUserOnScreen(user){
+                document.getElementById('email').value = '';
+                document.getElementById('username').value = '';
+                document.getElementById('phonenumber').value ='';
+                // console.log(localStorage.getItem(user.emailId))
+                if(localStorage.getItem(user.email) !== null){
+                    removeUserFromScreen(user.email)
+                }
+
+                const parentNode = document.getElementById('listOfUsers');
+                const childHTML = `<li id=${user.email}> ${user.name} - ${user.email}
+                                        <button onclick=deleteUser('${user.email}')> Delete User </button>
+                                        <button onclick=editUserDetails('${user.email}','${user.name}','${user.phonenumber}')>Edit User </button>
+                                     </li>`
+
+                parentNode.innerHTML = parentNode.innerHTML + childHTML;
+            }
+
+            //Edit User
+
+            function editUserDetails(emailId, name, phonenumber){
+
+                document.getElementById('email').value = emailId;
+                document.getElementById('username').value = name;
+                document.getElementById('phonenumber').value =phonenumber;
+
+                deleteUser(emailId)
+             }
+
+            // deleteUser('abc@gmail.com')
+
+            function deleteUser(emailId){
+                console.log(emailId)
+                localStorage.removeItem(emailId);
+                removeUserFromScreen(emailId);
+
+            }
+
+            function removeUserFromScreen(emailId){
+                const parentNode = document.getElementById('listOfUsers');
+                const childNodeToBeDeleted = document.getElementById(emailId);
+                if(childNodeToBeDeleted) {
+                    parentNode.removeChild(childNodeToBeDeleted)
+                }
+            }
+
+        </script>
+    </body>
+</html>
