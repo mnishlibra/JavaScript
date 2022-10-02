@@ -35,14 +35,34 @@ function onSubmit(e) {
         name : nameInput.value,
         email : emailInput.value    
     }
+<<<<<<< HEAD
       
           
       window.localStorage.setItem("Users ", JSON.stringify(Users));
          
+=======
+
+    localStorage.setItem("User Details:  " + " " + emailInput.value, JSON.stringify(Users));
+
+>>>>>>> a651e15b70f28fbfa5773e10e6b244858cf416db
     // localStorage.setItem( nameInput.value , emailInput.value ) ; }
 
     // Clear fields
     nameInput.value = '' ;
     emailInput.value = '';
+<<<<<<< HEAD
   }
   }
+=======
+
+  }
+  }
+  function showNewUserOnScreen(user){
+    document.getElementById('email').value = '';
+    document.getElementById('username').value = '';
+    document.getElementById('phonenumber').value ='';
+    // console.log(localStorage.getItem(user.emailId))
+    if(localStorage.getItem(user.email) !== null){
+        removeUserFromScreen(user.email)
+    }
+>>>>>>> a651e15b70f28fbfa5773e10e6b244858cf416db
