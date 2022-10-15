@@ -78,14 +78,15 @@
         </style>
         <form  onsubmit="saveToLocalStorage(event)">    
             <label> Name</label>
-            <input id='username' type="text" name="username"  required/> <br><br>
+            <input id='username' type="text" name="username"  required/>
             <label> EmailId</label>
-            <input id='email' type="email" name="emailId"  required/> <br><br>
+            <input id='email' type="email" name="emailId"  required/>
             <label> Phone Number</label>
-            <input id='phonenumber' type="tel" name="phonenumber" /> <br><br>
+            <input id='phonenumber' type="tel" name="phonenumber" />
             <button> Submit </button>
         </form>
         <ul id='listOfUsers'></ul>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
         <script>
             function saveToLocalStorage(event) {
                 event.preventDefault();
@@ -100,9 +101,34 @@
                     email,
                     phonenumber
                 }
-                localStorage.setItem(obj.email, JSON.stringify(obj))
-                showNewUserOnScreen(obj)
-            }
+                axios.post('https://crudcrud.com/api/3e9708fee3924f08b92a220eadc09700/appointmentData', obj)
+                .then((response) => {
+                    showNewUserOnScreen(response.data)
+                    console.log(response)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+
+                const config = {
+                        headers: {
+                        'Content-Type':'application/json',
+                        Authorization: 'sometoken'
+                        }
+                    }
+
+                axios.post('https://crudcrud.com/api/3e9708fee3924f08b92a220eadc09700/appointmentData', {
+                    _id: "",
+                    name: "",
+                    email: "",
+                    phonenumber: ""
+                },config)
+                .then(response => showNewUserOnScreen(response))
+                .catch(err => console.log(err));
+                
+                }
+                // localStorage.setItem(obj.email, JSON.stringify(obj))
+                
 
             window.addEventListener("DOMContentLoaded", () => {
                 const localStorageObj = localStorage;
