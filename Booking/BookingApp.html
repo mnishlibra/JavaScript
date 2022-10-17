@@ -140,7 +140,7 @@
             document.addEventListener("DOMContentLoaded", () => {
                 axios.get('https://crudcrud.com/api/bcab1c984cb44fe7905dc44dab5602f3/appointmentData')
                 .then((response) => {
-                    // showNewUserOnScreen(response);
+                     showNewUserOnScreen(response);
                     console.log(response);
                     for(var i=0 ; i<response.data.length; i++)
                     {
@@ -192,8 +192,8 @@
                 .catch ((err) => {
                     err => console.log(err)
                 })
+                removeUserFromScreen(userId);
             }
-
 
             function removeUserFromScreen(userId){
                 const parentNode = document.getElementById('listOfUsers');
