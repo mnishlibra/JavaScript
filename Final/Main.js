@@ -29,7 +29,6 @@ function addItem(e){
   // Get input value
   var newItem = document.getElementById('item').value;
   var newItem_discription = document.getElementById('form_discription').value;
-  console.log(newItem_discription);
 
   // Create new li element
   var li = document.createElement('li');

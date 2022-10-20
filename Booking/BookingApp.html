@@ -1,0 +1,208 @@
+<html>
+    <head>
+        <h2>Appointment Booking App</h2>
+    </head>
+    <body>
+        <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                header {
+                     background: #f4f4f4;
+                     padding: 1rem;
+                     text-align: center;
+                }
+                
+                body {
+                    font-family: Arial, Helvetica, sans-serif;
+                    line-height: 1.6;
+                }
+                
+                ul {
+                    list-style: none;
+                }
+                
+                ul li {
+                    padding: 5px;
+                    background: #f4f4f4;
+                    margin: 5px 0;
+                }
+
+                #my-form {
+                    padding: 2rem;
+                    background: #f4f4f4;
+                }
+                
+                #my-form label {
+                    display: block;
+                }
+                
+                #my-form input[type='text'] {
+                    width: 100%;
+                    padding: 8px;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+                    border: 1px solid #ccc;
+                    text-align: center;
+                }
+                
+                .btn {
+                    display: block;
+                    width: 100%;
+                    padding: 10px 15px;
+                    border: 0;
+                    background: #333;
+                    color: #fff;
+                    border-radius: 5px;
+                    margin: 5px 0;
+                }
+                
+                .btn:hover {
+                    background: #444;
+                }
+                
+                .bg-dark {
+                    background: #333;
+                    color: #fff;
+                }
+                
+                .error {
+                    background: orangered;
+                    color: #fff;
+                    padding: 5px;
+                    margin: 5px;
+                }
+        </style>
+        <form  onsubmit="saveToLocalStorage(event)">    
+            <label> Name</label>
+            <input id='username' type="text" name="username"  required/>
+            <label> EmailId</label>
+            <input id='email' type="email" name="emailId"  required/>
+            <label> Phone Number</label>
+            <input id='phonenumber' type="tel" name="phonenumber" />
+            <button> Submit </button>
+        </form>
+        <ul id='listOfUsers'></ul>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+        <script>
+            function saveToLocalStorage(event) {
+                event.preventDefault();
+                const name = event.target.username.value;
+                const email = event.target.emailId.value;
+                const phonenumber = event.target.phonenumber.value;
+                // localStorage.setItem('name', name);
+                // localStorage.setItem('email', email);
+                // localStorage.setItem('phonenumber', phonenumber)
+                const obj = {
+                    name,
+                    email,
+                    phonenumber
+                }
+                axios.post('https://crudcrud.com/api/bcab1c984cb44fe7905dc44dab5602f3/appointmentData', obj)
+                .then((response) => {
+                    for(var i=0; i<response.data.length; i++){
+                        showNewUserOnScreen(response.data[i]);
+                    }
+                    console.log(response)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+
+                const config = {
+                        headers: {
+                        'Content-Type':'application/json',
+                        Authorization: 'sometoken'
+                        }
+                    }
+
+                // axios.post('https://crudcrud.com/api/3e9708fee3924f08b92a220eadc09700/appointmentData', {
+                //     _id: "",
+                //     name: "",
+                //     email: "",
+                //     phonenumber: ""
+                // },config)
+                // .then(response => showNewUserOnScreen(response))
+                // .catch(err => console.log(err));
+                
+                // }    
+                // localStorage.setItem(obj.email, JSON.stringify(obj))
+                
+                // const localStorageObj = localStorage;
+                // const localstoragekeys  = Object.keys(localStorageObj)
+
+
+            }
+            
+            document.addEventListener("DOMContentLoaded", () => {
+                axios.get('https://crudcrud.com/api/bcab1c984cb44fe7905dc44dab5602f3/appointmentData')
+                .then((response) => {
+                     showNewUserOnScreen(response);
+                    console.log(response);
+                    for(var i=0 ; i<response.data.length; i++)
+                    {
+                        showNewUserOnScreen((response.data[i]))
+                    }
+                })  
+                .catch((err) => {
+                    console.log(err);
+                    console.log("Manish");
+                    console.log('Something Went Wrong')
+                })
+              });
+
+
+            function showNewUserOnScreen(user){
+                document.getElementById('email').value = '';
+                document.getElementById('username').value = '';
+                document.getElementById('phonenumber').value ='';
+                // console.log(localStorage.getItem(user.emailId))
+                if(localStorage.getItem(user.email) !== null){
+                    removeUserFromScreen(user.email)
+                }
+
+                const parentNode = document.getElementById('listOfUsers');
+                const childHTML = `<li id=${user._id}> ${user.name} - ${user.email}
+                                        <button onclick=deleteUser('${user._id}')> Delete User </button>
+                                        <button onclick=editUserDetails('${user.email}','${user.name}','${user.phonenumber}','${user._id}')>Edit User </button>
+                                     </li>`
+
+                parentNode.innerHTML = parentNode.innerHTML + childHTML;
+            }
+
+            //Edit User
+
+            function editUserDetails(emailId, name, phonenumber,userId){
+                document.getElementById('email').value = emailId;
+                document.getElementById('username').value = name;
+                document.getElementById('phonenumber').value =phonenumber;
+                deleteUser(userId)                
+             }
+
+            // deleteUser('abc@gmail.com')
+
+            function deleteUser(userId){
+                axios.delete(`https://crudcrud.com/api/bcab1c984cb44fe7905dc44dab5602f3/appointmentData/${userId}`)
+                .then((response) => {
+                    removeUserFromScreen(userId)
+                })
+                .catch ((err) => {
+                    err => console.log(err)
+                })
+                removeUserFromScreen(userId);
+            }
+
+            function removeUserFromScreen(userId){
+                const parentNode = document.getElementById('listOfUsers');
+                const childNodeToBeDeleted = document.getElementById(userId);
+                if(childNodeToBeDeleted) {
+                    parentNode.removeChild(childNodeToBeDeleted)
+                }
+            }
+        
+        </script>
+    </body>
+</html>
