@@ -13,7 +13,7 @@ function saveToLocalStorage(event) {
     }
     localStorage.setItem(obj.email, JSON.stringify(obj))
     showNewUserOnScreen(obj)
-    axios.post('https://crudcrud.com/api/5f2f24bbe34f4ff5b00563c1a3cc3bca/expense',obj)
+    axios.post('https://crudcrud.com/api/fb31dd3c7c344700bf1442ca5effec73/expense',obj)
     .then((response) => {
         for(var i=0; i<response.data.length; i++){
             showNewUserOnScreen(response.data[i]);
@@ -23,10 +23,11 @@ function saveToLocalStorage(event) {
     .catch((err) => {
         console.log(err)
     })
+
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    axios.get('https://crudcrud.com/api/5f2f24bbe34f4ff5b00563c1a3cc3bca/expense')
+    axios.get('https://crudcrud.com/api/fb31dd3c7c344700bf1442ca5effec73/expense')
     .then((response) => {
         console.log(response);
         for(var i=0 ; i<response.data.length; i++)
@@ -38,17 +39,12 @@ window.addEventListener("DOMContentLoaded", () => {
         console.log(err);
         console.log('Something Went Wrong')
     })
-
 })
 
 function showNewUserOnScreen(user){
     document.getElementById('email').value = '';
     document.getElementById('username').value = '';
     document.getElementById('phonenumber').value ='';
-    // console.log(localStorage.getItem(user.emailId))
-    // if(localStorage.getItem(user.email) !== null){
-    //     removeUserFromScreen(user.email)
-    // }
 
     const parentNode = document.getElementById('listOfUsers');
     const childHTML = `<li id=${user._id}> ${user.name} - ${user.email} - ${user.phonenumber}
@@ -60,14 +56,14 @@ function showNewUserOnScreen(user){
 }
 
 function editUserDetails(name, email,phonenumber,userId){
-    document.getElementById('email').value = email;
-    document.getElementById('username').value = name;
+    document.getElementById('email').value = name;
+    document.getElementById('username').value = email;
     document.getElementById('phonenumber').value =phonenumber;
     deleteUser(userId)
  }
 
 function deleteUser(userId){
-    axios.delete(`https://crudcrud.com/api/5f2f24bbe34f4ff5b00563c1a3cc3bca/expense/${userId}`)
+    axios.delete(`https://crudcrud.com/api/fb31dd3c7c344700bf1442ca5effec73/expense/${userId}`)
     .then((response) => {
         removeUserFromScreen(userId)
     })
