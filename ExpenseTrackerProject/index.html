@@ -1,105 +1,35 @@
 <html>
     <head>
-        <h3 style="text-align:center">Expense Tracking Tool </h3>
+        <h3 style="text-align:center">Expense Tracking Application </h3> <br>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <style>
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
-                header {
-                     background: #f4f4f4;
-                     padding: 1rem;
-                     text-align: center;
-                }
-                
-                body {
-                    font-family: Arial, Helvetica, sans-serif;
-                    line-height: 1.6;
-                }
-                
-                ul {
-                    list-style: none;
-                }
-                
-                ul li {
-                    padding: 5px;
-                    background: #f4f4f4;
-                    margin: 5px 0;
-                }
-
-                #my-form {
-                    padding: 2rem;
-                    background: #f4f4f4;
-                }
-                
-                #my-form label {
-                    display: block;
-                }
-                
-                #my-form input[type='text'] {
-                    width: 100%;
-                    padding: 8px;
-                    margin-bottom: 10px;
-                    border-radius: 5px;
-                    border: 1px solid #ccc;
-                    text-align: center;
-                }
-                
-                .btn {
-                    display: block;
-                    width: 100%;
-                    padding: 10px 15px;
-                    border: 0;
-                    background: #333;
-                    color: #fff;
-                    border-radius: 5px;
-                    margin: 5px 0;
-                }
-                
-                .btn:hover {
-                    background: #444;
-                }
-                
-                .bg-dark {
-                    background: #333;
-                    color: #fff;
-                }
-                
-                .error {
-                    background: orangered;
-                    color: #fff;
-                    padding: 5px;
-                    margin: 5px;
-                }
-        </style>
         <form  onsubmit="saveToLocalStorage(event)">    
-            <label> Expense Amount</label>
+            <label > Expense Amount</label>
             <input id='username' type="text" name="username"  required/> 
             <label> Expense discription </label>
-            <input id='email' type="text" name="ChoosingCat"  required/>
-            <label> Choossing Category</label>
+            <input id='email' type="text" name="ChoosingCat"  required/> 
+            <label> Choossing Category</label> 
             <select name="CategoryFinder" id="phonenumber">
                 <option value="Movies">Movies</option>
                 <option value="Food">Food</option>
                 <option value="Travel">Travel</option>
                 <option value="Night-Out">Night-Out</option>
-              </select>
+              </select> 
             <button> Add Expense </button>
-        </form>
+            </form>
         <ul id='listOfUsers'></ul>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+        <script src="main.js"></script>
         <script>
             function saveToLocalStorage(event) {
                 event.preventDefault();
                 const name = event.target.username.value;
                 const email = event.target.ChoosingCat.value;
                 const phonenumber = event.target.phonenumber.value;
-                // localStorage.setItem('name', name);
-                // localStorage.setItem('email', email);
-                // localStorage.setItem('phonenumber', phonenumber)
+                localStorage.setItem('name', name);
+                localStorage.setItem('email', email);
+                localStorage.setItem('phonenumber', phonenumber)
                 const obj = {
                     name,
                     email,
@@ -107,8 +37,7 @@
                 }
                 localStorage.setItem(obj.email, JSON.stringify(obj))
                 showNewUserOnScreen(obj)
-                
-                axios.post('https://crudcrud.com/api/dbfbb9674948437a9ba9a80de7eec5a6/expense', obj)
+                axios.post('https://crudcrud.com/api/5f2f24bbe34f4ff5b00563c1a3cc3bca/expense',obj)
                 .then((response) => {
                     for(var i=0; i<response.data.length; i++){
                         showNewUserOnScreen(response.data[i]);
@@ -122,9 +51,8 @@
             }
 
             window.addEventListener("DOMContentLoaded", () => {
-                axios.get('https://crudcrud.com/api/dbfbb9674948437a9ba9a80de7eec5a6/expense')
+                axios.get('https://crudcrud.com/api/5f2f24bbe34f4ff5b00563c1a3cc3bca/expense')
                 .then((response) => {
-                    // showNewUserOnScreen(response);
                     console.log(response);
                     for(var i=0 ; i<response.data.length; i++)
                     {
@@ -143,14 +71,14 @@
                 document.getElementById('username').value = '';
                 document.getElementById('phonenumber').value ='';
                 // console.log(localStorage.getItem(user.emailId))
-                if(localStorage.getItem(user.email) !== null){
-                    removeUserFromScreen(user.email)
-                }
+                // if(localStorage.getItem(user.email) !== null){
+                //     removeUserFromScreen(user.email)
+                // }
 
                 const parentNode = document.getElementById('listOfUsers');
-                const childHTML = `<li id=${user.email}> ${user.name} - ${user.email} - ${user.phonenumber}
+                const childHTML = `<li id=${user._id}> ${user.name} - ${user.email} - ${user.phonenumber}
                                         <button onclick=deleteUser('${user._id}')> Delete User </button>
-                                        <button onclick=editUserDetails('${user.email}','${user.name}','${user.phonenumber}','${user._id}')>Edit User </button>
+                                        <button onclick=editUserDetails('${user.name}','${user.email}','${user.phonenumber}','${user._id}')>Edit User </button>
                                      </li>`
 
                 parentNode.innerHTML = parentNode.innerHTML + childHTML;
@@ -158,8 +86,8 @@
 
             //Edit User
 
-            function editUserDetails(ChoosingCat, name, phonenumber,userId){
-                document.getElementById('email').value = ChoosingCat;
+            function editUserDetails(name, email,phonenumber,userId){
+                document.getElementById('email').value = email;
                 document.getElementById('username').value = name;
                 document.getElementById('phonenumber').value =phonenumber;
                 deleteUser(userId)
@@ -168,18 +96,13 @@
 
             function deleteUser(userId){
                 // localStorage.removeItem(ChoosingCat);
-                axios.delete(`https://crudcrud.com/api/dbfbb9674948437a9ba9a80de7eec5a6/expense/${userId}`)
+                axios.delete(`https://crudcrud.com/api/5f2f24bbe34f4ff5b00563c1a3cc3bca/expense/${userId}`)
                 .then((response) => {
                     removeUserFromScreen(userId)
-                    for(var i=0 ; i<response.data.length; i++)
-                    {
-                        showNewUserOnScreen((response.data[i]))
-                    }
                 })
                 .catch ((err) => {
                     err => console.log(err)
                 })
-                removeUserFromScreen(userId);
             }
 
             function removeUserFromScreen(userId){
