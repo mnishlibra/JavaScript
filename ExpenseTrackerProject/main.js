@@ -59,18 +59,14 @@ function showNewUserOnScreen(user){
     parentNode.innerHTML = parentNode.innerHTML + childHTML;
 }
 
-//Edit User
-
 function editUserDetails(name, email,phonenumber,userId){
     document.getElementById('email').value = email;
     document.getElementById('username').value = name;
     document.getElementById('phonenumber').value =phonenumber;
     deleteUser(userId)
  }
-// deleteUser('abc@gmail.com')
 
 function deleteUser(userId){
-    // localStorage.removeItem(ChoosingCat);
     axios.delete(`https://crudcrud.com/api/5f2f24bbe34f4ff5b00563c1a3cc3bca/expense/${userId}`)
     .then((response) => {
         removeUserFromScreen(userId)
