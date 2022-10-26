@@ -1,10 +1,7 @@
-function fun3() {
-	var a =10;
-	{
-		Let b=100
-	}
-	console.log(b)
-
+static b() {
+	var a = 10;
+	console.log(a);
 }
 
-fun3()
+b();
+console.log(a);
