@@ -168,7 +168,31 @@
 const http = require('http');
 
 const server = http.createServer((req,res) => {
-	console.log("Manish Pandey");
+	// console.log(req.url);
+	// console.log(req.headers);
+	// res.write('<html>');
+	// res.write("<body><h1>hello from my Node JS server</h1></body>")
+	// res.write('</html>');
+	// res.end();
+	if(req.url === '/home') {
+		res.write('<html>');
+		res.write("<body><h1>Welcome home</h1></body>")
+		res.write('</html>');
+		res.end();
+	}
+	if(req.url === '/about') {
+		res.write('<html>');
+		res.write("<body><h1> Welcome to About Us page</h1></body>")
+		res.write('</html>');
+		res.end();
+	}
+	if(req.url === '/node') {
+		res.write('<html>');
+		res.write("<body><h1>Welcome to my Node Js project</h1></body>")
+		res.write('</html>');
+		res.end();
+	}
+	process.exit();	
 });
 
-server.listen(4000);
+server.listen(5000);
