@@ -40,6 +40,7 @@ if (url === '/') {
       });
     });
   }
+  
   res.setHeader('Content-Type', 'text/html');
   res.write('<html>');
   res.write('<head><title>My First Page</title><head>');
@@ -51,7 +52,7 @@ if (url === '/') {
 //Storing the function into a module 
 
 // One of the way to export routes using modules 
-// module.exports = routeHandler; 
+module.exports = routeHandler; 
 
 // Storing it into a form of an Object 
 // module.exports = {
