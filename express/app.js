@@ -1,19 +1,22 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const app = express();
 
-const port = process.env.port || 3000;
+app.use(bodyParser.urlencoded({extended: false}));
 
-app.use('/add-product' , (req,res,next) ==> {
-    res.send('<form action=/><input></input><button></button></form')
-})
+app.use('/add-product', (req, res, next) => {
+    res.send('<form action="/product" method="POST"><input type="text" name="title" placeholder="title of Product"><input type="text" name="size" placeholder="size of Product"><button type="submit">Add Product</button></form>');
+  });
 
-app.use((req,res,next) => {
-    console.log('This is the first Middleware');
-    next();
+app.post('/product', (req, res, next) => {
+    console.log(req.body);
+    res.redirect('/');
 });
 
-app.use((req,res,next) => {
-    console.log('This is the second Middleware');
+app.use('/' , (req,res,next) => {
+    res.send('<h1>I am Using express</h1>');
 });
 
-app.listen(port) ;
+
+app.listen(3000) ;
