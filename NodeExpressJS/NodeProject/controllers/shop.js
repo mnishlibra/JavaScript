@@ -29,16 +29,18 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
-    .then(([rows , fileData]) => {
+  Product.findAll()
+    .then(products => {
       res.render('shop/index', {
-        prods: rows,
-        pageTitle: 'Shop',
-        path: '/'
-      });
+      prods: products,
+      pageTitle: 'Shop',
+      path: '/'
     })
-    .catch((err) => {console.log(err)});
-};
+    .catch(err => {
+    console.log(err);
+    });
+  });
+}
 
 exports.getCart = (req, res, next) => {
   Cart.getCart(cart => {
