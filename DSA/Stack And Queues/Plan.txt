@@ -1,0 +1,15 @@
+I Have ALready Covered This topic 
+I am Revising 
+Preparing self for the placements 
+will Solve Around 20 Questions from The Topic 
+and Cover All the question given in 
+Sharpaner Portal 
+and Sheet 
+in 3 Days 
+
+
+Name and Number Of Questtion Covered
+
+1) Valid Parentheses (use simple stack Push and Pop Operation)
+2) Min Stack (for Minvalue remember stack is just a array in Js , get the min value by looping through)
+3)
