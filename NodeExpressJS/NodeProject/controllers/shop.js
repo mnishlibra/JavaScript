@@ -36,9 +36,9 @@ exports.getIndex = (req, res, next) => {
       pageTitle: 'Shop',
       path: '/'
     })
-    .catch(err => {
-    console.log(err);
-    });
+    // .catch((err) => {
+    // console.log(err);
+    // });
   });
 }
 

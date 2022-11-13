@@ -3,8 +3,7 @@ const sequelize = require('../util/data');
 const Expense = sequelize.define('expenses',{
     id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
+        allowNull: true,
         primaryKey: true
     },
     amount: {

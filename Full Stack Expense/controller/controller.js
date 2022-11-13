@@ -1,15 +1,25 @@
 const { response } = require('express');
 const model = require('../model/database');
-exports.postDetails = ((req,res,next) => {
+
+exports.postDetails =  ((req,res,next) => {
+    const id = req.params.id;
     const{amount,description,category} = req.body;
-    model.create({amount,description,category})
-    .then((response)=> {
-        res.status(201).json({expense: response});
-    })
-    .catch(err => {
-        res.status(500).json(err);
-    })
-});
+    if(id == 'null'){
+        model.create(    
+            {amount,description,category}
+        ).then(
+            response => res.json(response)
+        ).catch(
+            err => console.log(err)
+        )
+    }
+    else{
+        model.update(
+            {amount,description,category} ,
+            {where : {id : id}}
+        )
+    }
+})
 
 exports.getDetails = ((req,res,next) => {
     model.findAll()

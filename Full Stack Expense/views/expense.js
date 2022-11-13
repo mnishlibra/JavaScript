@@ -1,3 +1,35 @@
+showExpensesOnScreen();
+let id = null;
+const parentNode = document.getElementById('listofExpenses');
+parentNode.addEventListener('click', (e) => {
+    if(e.target.className == "deletebtn"){
+        let id = e.target.id;
+        try{
+            axios.delete(`http://localhost:8000/delete-details/${id}`)
+            .then((response) => {
+                showExpensesOnScreen()
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            }
+            catch{
+                console.error('Delete is not Taking Place');
+            }
+    }
+    if(e.target.className =='editbtn'){
+    let amount = e.target.parentElement.querySelector('#editamount').innerHTML;
+    let description = e.target.parentElement.querySelector('#editdescription').innerHTML;
+    let category = e.target.parentElement.querySelector('#editcategory').innerHTML;
+    console.log(category);
+    document.getElementById('amount').value = amount
+    document.getElementById('description').value = description;
+    document.getElementById('category').value = category;
+    console.log(amount,description,category);
+    let editID = e.target.id;
+    id = editID;  
+    }
+})
 function postExpense(event) {
     event.preventDefault();
     const amount = document.getElementById('amount');
@@ -8,8 +40,11 @@ function postExpense(event) {
         description : description.value,
         category : category.value
     }
-    axios.post('http://localhost:8000/details',obj)
+    console.log(id);
+    axios.post(`http://localhost:8000/add/${id}`,obj)
     .then((response) => {
+        id = null;
+        showExpensesOnScreen()
         console.log(response)
     })
     .catch((err) => {
@@ -18,69 +53,29 @@ function postExpense(event) {
     showExpensesOnScreen(obj);
 }   
 
-window.addEventListener('DOMContentLoaded',(event)=>{
-    event.preventDefault();
-    axios
-    .get('http://localhost:8000/get-details')
-    .then(response => {
-        console.log(response.data.response)
-        for(let i=0; i<response.data.response.length; i++){
-            showExpensesOnScreen(response.data.response[i]);
-        }
-    })
-    .catch(err => {
-        console.log(err)
-    })
-})
-
-function showExpensesOnScreen(expenses) {
+function showExpensesOnScreen() {
     document.getElementById('amount').value = '';
     document.getElementById('description').value = '';
     document.getElementById('category').value ='';
 
-    const parentNode = document.getElementById('listofExpenses');
-    const childHTML = `<li id=${expenses.id}> ${expenses.amount} - ${expenses.description} - ${expenses.category}
-                            <button onclick=deleteUser('${expenses.id}')>Delete</button>
-                            <button onclick=editDetails('${expenses.amount}','${expenses.description}','${expenses.category}','${expenses.id}')>Edit</button>
-                        </li>`
-
-    parentNode.innerHTML = parentNode.innerHTML + childHTML;
-}
-
-function deleteUser(id){
-    removeUserFromScreen(id);
-    try{
-    axios.delete(`http://localhost:8000/delete-details/${id}`)
-    .then((response) => {
-        removeUserFromScreen(id);
+    axios
+    .get('http://localhost:8000/get-details')
+    .then(response => {
+        const parentNode = document.getElementById('listofExpenses');
+        let data = ''
+        for(let i=0; i<response.data.response.length; i++){
+            let expenses = response.data.response[i]
+            data += `<div id=${expenses.id}>
+            <span id="editamount"> ${expenses.amount}</span>
+            <span id="editdescription"> ${expenses.description}</span>
+            <span id="editcategory"> ${expenses.category}</span>
+            <button id=${expenses.id} class="editbtn">edit</button>
+            <button id=${expenses.id} class="deletebtn">delete</button>
+            </div>`
+        }
+        parentNode.innerHTML = data;
     })
     .catch(err => {
-        console.log(err);
+        console.log(err)
     })
-    }
-    catch{
-        console.error('Delete is not Taking Place');
-    }
-}
-
-function removeUserFromScreen(userId){
-    const parentNode = document.getElementById('listofExpenses');
-    const childNodeToBeDeleted = document.getElementById(userId);
-    if(childNodeToBeDeleted) {
-        parentNode.removeChild(childNodeToBeDeleted)
-    }
-}
-
-function editDetails(amt,des,cat,id) {
-    try
-    {
-        deleteUser(id);
-        document.getElementById('amount').value = amt;
-        document.getElementById('description').value = des;
-        document.getElementById('cat').value = cat;
-    }
-    catch
-    {
-        err => console.log(err);
-    }
 }
