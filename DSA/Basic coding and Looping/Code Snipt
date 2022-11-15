@@ -1,0 +1,219 @@
+// //Basic Coding 
+// Swap two variables
+// // Let , var and const
+// // var - global scope variables
+// // let and const  are block scope
+// // let can be redeclared but const cannot be redeclared
+// // a = 10 , b = 5 --> After swapping variables  
+// // b = 10 , a = 5
+
+// let a = 10;
+// let b = 5;
+// console.log(`Before Swapping : ${a} , ${b}`)
+// // // two ways to essentially do this
+// // // one of them is basically using a temp and the other is masking 
+
+// // let temp = 0;
+// // temp = a ; // 10
+// // a = b ; // 5
+// // b = temp // 10
+// // console.log(`After Swapping : ${a} , ${b}`)
+
+// // Use Masking 
+// // + - / * 
+// a = a + b; // 15
+// b = a - b; // 10
+// a = a - b; // 5
+// console.log(`After Swapping : ${a} , ${b}`)
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+//Basic
+// Largest number of two given number
+// let a = 25;
+// let b = 75;
+//if else condition // ternary 
+//Create a function 
+// if(a>b){
+//   console.log(`the value of a is greater : ${a}`);
+// }
+// else{
+//   console.log(`the value of b is greater : ${b}`);
+// }
+// anyonmous function , expresstion function fat arrow function
+// Funciton declaration 
+// function largest(a,b){
+//   if(a>b){
+//   return `the value of a is greater : ${a}`;
+// }
+// else{
+//   return `the value of b is greater : ${b}`;
+// }
+// }
+// // calling function // invoking 
+// console.log(largest(25,75))
+
+// fat arrow function 
+
+// var largest = (a,b) => {
+//   return  a + b ;
+// }
+
+// console.log(largest(15,20));
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// Basic coding 
+// Largest among three numbers
+// output --> 10
+//if else ladder , ternary operator and function 
+// Code reusable
+// function largestAmongThree(a,b,c){
+//   if(a>b){
+//     if(a>c){
+//       return 'a is the largest'
+//     }
+//   }
+//   else if(b>a){
+//     if(b>c){
+//       return 'b is the largest'
+//     }
+//   }
+//   else{
+//     return 'c is the largest'
+//   }
+// }
+
+// console.log(largestAmongThree (2,10,3))
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// ternary operator in JS
+// shorthand for if else 
+// If Marks> =40 --> pass
+
+// ELSE ---> fail
+// var Marks = 38
+
+// let result = (Marks>=40) ? console.log('pass') : console.log('fail')
+
+// function ternaryOperator(mar){
+//   return (mar>=40) ? 'pass' : 'fail'
+// }
+
+// console.log(ternaryOperator(85))
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// Given the Day number, print the Day name in lower case corresponding to it by using the help of switch statement.
+// Note: Day 1 - is monday.
+// If the day is not valid example 1> day >7 then print invalid
+
+// let n = 25
+
+// switch(n) {
+//   case 1:
+//     console.log('monday')
+//     break;
+//   case 2:
+//     console.log('tuesday')
+//     break;
+//   case 3:
+//     console.log('wednesday')
+//     break;
+//   case 4:
+//     console.log('thrusday')
+//     break;
+//   case 5:
+//     console.log('friday')
+//     break;
+//   case 6:
+//     console.log('saturday')
+//     break;
+//   case 7:
+//     console.log('sunday')
+//     break;
+//   default:
+//     console.log('Not Any Day')
+//     break;
+// }
+
+// Looping
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+
+// Basic coding --> Looping !
+// Print all even number from 1 to number
+// for Loop
+// while Loop
+// do-while Loop
+// for in Loop
+// Every loop contains 3 things essentially 
+// a) starting point , b) ending point c) condition 
+
+// let n = 25
+// for(let i = 1; i <= n; i=i+2){
+//   console.log(i);
+// }
+// ---------------------------------------------------------------------------------------------------------- //
+
+
+// While loop
+// 1 4 9 16 25 36 …. n
+// Input :-
+// n = 49
+// Output :
+// 1
+// 4
+// 9
+// 16
+// 25
+// 36
+// 49
+// let i = 1 
+// let n = 7 
+// while(i<=n){
+//   console.log(i*i)
+//   i++
+// }
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// Write a program to print even numbers from 1 to n except numbers which are divisible by 4. 
+// Use Continue statement to avoid printing.
+// Input
+// 10
+// Output
+// 2
+// 6
+// 10
+// let n = 10;
+// for(let i=2; i<=n; i+=2){
+//   if(i%4==0){
+//     continue
+//   }
+//   console.log(i)
+// }
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// Write a program to print all the numbers from 1 to n .If m is present in between the sequence then stop printing any other number and break out of the loop.
+// Input :-
+// n = 10 m = 4
+// Output :-
+// 1
+// 2
+// 3
+
+// let n = 10 , m = 4 ; 
+
+// for(let i=1; i<=n; i++){
+//   if(i == m){
+//     break;
+//   }
+//   console.log(i)
+// }
+
+// ---------------------------------------------------------------------------------------------------------- //
+
