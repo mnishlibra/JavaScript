@@ -217,3 +217,114 @@
 
 // ---------------------------------------------------------------------------------------------------------- //
 
+// Write a program to print the digits of a number .
+// Input:-
+// N - 153 .
+// output:-
+// 3
+// 5
+// 1
+
+// let n = 153;
+
+// while(n>0){
+//   console.log(n%10) // 3 , 5 1
+//   n = Math.floor(n/10) // 15 // 1
+// }
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// Write a program to print whether a given number is an Armstrong number or not..
+// (Armstrong number is a number in which all the sum of cubes of digits is equal to the number
+// Example:-
+// Input
+// n=153
+// Output
+// true
+
+// 1 5 3 --> sum of cubes --> 1 + 125 + 27 =  153
+
+// let sum = 0 , cubicValue = 0;
+
+// function checkArmstrong(val){
+//   let compare = val ; 
+//   while(val>0){
+//     cubicValue = cube(val%10);
+//     sum += cubicValue
+//     val = Math.floor(val/10);
+//   }
+//   return (compare==sum) ? `${compare} is an Armstrong number` : `${compare} is Not an Armstrong number` ;
+// }
+
+// function cube(x){
+//   return x * x * x ; 
+// }
+
+// console.log(checkArmstrong(371))
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// Write a program to return the reverse of a number
+// Input
+// n=123
+// output
+// 321
+// 123 --> 321
+
+// function rev(n){
+//   let rem = 0;
+//   let r = 0;
+//   while(n>0){
+//     rem = n % 10 ;
+//     r = (r*10) + rem;
+//     n = Math.floor(n/10);
+//   }
+//   return r;
+// }
+
+
+// console.log(rev(856454))
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+
+// Print all Odd Numbers from 1 to n using for loops
+
+// for(let i=1; i<=10; i++){
+//   if(i%2==0){
+//     continue;
+//   }
+//   console.log(i)
+// }
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// Print the following series using for loop:-
+// 1,8,27,64,125,216,......n
+// Input
+// 125
+// Output :-
+// 1
+// 8
+// 27
+// 64
+// 125
+
+// for(let i=1; i<=5; i++){
+//   console.log(i*i*i)
+// }
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+// Print even number from 1 to n except no divisible by 4
+
+// for(let i=2; i<=10; i=i+2){
+//   if(i%4==0){
+//     continue;
+//   }
+//   console.log(i)
+// }
+
+// ---------------------------------------------------------------------------------------------------------- //
+
+
