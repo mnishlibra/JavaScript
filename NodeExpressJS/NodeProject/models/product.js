@@ -1,11 +1,11 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 
 const sequelize = require('../util/database');
 
 const Product = sequelize.define('product', {
   id: {
     type: Sequelize.INTEGER,
-    autoIncrement : true ,
+    autoIncrement: true,
     allowNull: false,
     primaryKey: true
   },
@@ -24,4 +24,4 @@ const Product = sequelize.define('product', {
   }
 });
 
-module.exports = Product ; 
+module.exports = Product;
