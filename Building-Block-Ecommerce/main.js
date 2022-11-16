@@ -7,7 +7,7 @@ const parentNode = document.getElementById('music-content');
 window.addEventListener('load', () => {
     console.log('loaded');
     axios.get('http://localhost:3000/products').then((products) => {
-        console.log(products.data)
+
         products.data.forEach(product => {
             const productHtml = `
                 <div id="album-${product.id}">
