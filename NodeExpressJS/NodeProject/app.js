@@ -1,4 +1,5 @@
 const path = require('path');
+const cors = require('cors');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -14,6 +15,8 @@ const OrderItem = require('./models/order-item');
 
 const app = express();
 
+app.use(cors);
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -24,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    User.findById(1)
+    User.findByPk(1)
       .then(user => {
         req.user = user;
         next();
@@ -51,7 +54,7 @@ sequelize
   // .sync({ force: true })
   .sync()
   .then(result => {
-    return User.findById();
+    return User.findByPk();
     console.log(result);
   })
   .then(user => {
