@@ -6,8 +6,7 @@ const parentNode = document.getElementById('music-content');
 
 window.addEventListener('load', () => {
     console.log('loaded');
-
-    axios.get('http://localhost:3000/products').then((products) => {
+    axios.get('http://localhost:4000/getProducts').then((products) => {
         console.log(products)
         products.data.forEach(product => {
             const productHtml = `
@@ -32,7 +31,9 @@ document.addEventListener('click',(e)=>{
 
     if (e.target.className=='shop-item-button'){
         const prodId = Number(e.target.parentNode.parentNode.id.split('-')[1]);
-        axios.post('http://localhost:3000/cart', { productId: prodId}).then(data => {
+        console.log(prodId);
+        axios.post('http://localhost:4000/postCart', { productId: prodId}).then(data => {
+            console.log(data.data.message)
             if(data.data.error){
                 throw new Error('Unable to add product');
             }
