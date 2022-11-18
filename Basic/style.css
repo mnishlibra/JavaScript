@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Kolker+Brush&family=Poppins:ital@1&family=Roboto:ital,wght@1,100&display=swap');
+
+@font-face {
+    font-family: "";
+    src: url();
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    color: #777;
+}
+
+
+html,body {
+    margin: 0;
+    padding: 0;
+}
+
+.nav ul {
+    margin: 0;
+}
+
+.nav li {
+    display: inline;
+}
+
+.nav a {
+    display: inline-block;
+    padding: 0.5em;
+    color: white;
+    text-decoration: none;
+}
+
+.mian-nav li {
+    padding: 0 5%;
+}
+
+.main-nav {
+    text-align: center;
+    font-family: 1.1rem;
+    font-weight: lighter;
+    border-bottom: 1px solid rgba(255,255,255,.3);
+}
+
+.nav a-hover {
+    background-color: rgba(255,255,255,.3);
+}
+
+.main-header {
+    background-color: rgba(0,0,0,0.6);
+    background-image: url("https://plus.unsplash.com/premium_photo-1664372599873-0cbbe716db09?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2xvdGhzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60");
+    background-blend-mode: multiply;
+    background-size: cover ;
+    padding-bottom: 30px;
+}
+
+.band-name {
+    text-align: center;
+    margin: 0;
+    font-size: 4em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif00;
+     
+}

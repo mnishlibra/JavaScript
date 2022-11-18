@@ -402,3 +402,14 @@
 
 // ---------------------------------------------------------------------------------------------------------- //
 
+// Basic coding aur looping 
+// // Data Structure --> Way of Storing data 
+// //Array Implemtation 
+
+// const a = [1,5,6,7,8,9] // empty array
+// var b = ['a','bf','cd'] // 
+
+// // array supports indexing starts from 0
+// console.log(b)
+
+// ---------------------------------------------------------------------------------------------------------- //

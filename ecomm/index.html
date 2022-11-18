@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <!-- font awesome cdn link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- custom css link  -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- topnav  -->
+    <div class="topnav" id="myTopnav">
+        <a href="#"><i class="fa fa-amazon"></i>  Amazon.in</a>
+        <a href="#"><i class="fa fa-envelope"></i> Select your Addreress</a>
+        <a href="./aboutUs.html"><i class="fa fa-" aria-hidden="true"></i> About Us Page</a>
+        <a href="#"><i class="fa fa-fw fa-envelope"></i></i>Returns & orders</a>
+        <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"> Cart</i></a>
+        <input type="text" class="form-control empty" id="iconified" placeholder="&#xF002; search" />
+    </div>  
+
+    <!-- undernav -->
+    <div class="undernav">
+      <a href="#"><i class="fa fa-bars"></i>  All</a>
+      <a href="#">Best Sellers</a>
+      <a href="#">Mobiles</a>
+      <a href="#">Today's Deals</a>
+      <a href="#">Electronics</a>
+      <a href="#">Home & Kitchen</a>
+      <a href="#">Fashion</a>
+      <a href="#">Books</a>
+      <a href="#">Computers</a>
+      <a href="#">Coupons</a>
+      <a href="#">Pay</a>
+      <a href="#">New Releases</a>
+      <a href="#">Trending</a>
+    </div>
+
+    <!-- carousel -->
+    <div class="carousel">
+      <div class="image-container" id="imgs">
+          <img src="https://m.media-amazon.com/images/I/81aDJuDPGwL._SX3000_.jpg" alt="" style="width: 100%;">
+          <img src="https://m.media-amazon.com/images/I/61aURrton0L._SX3000_.jpg" alt="" style="width: 100%;">
+          <img src="https://m.media-amazon.com/images/I/71cQMXCLSvL._SX3000_.jpg" alt="" style="width: 100%;">
+          <img src="https://m.media-amazon.com/images/I/81hg4Zrf2+L._SX3000_.jpg" alt="" style="width: 100%;">
+          <img src="https://m.media-amazon.com/images/I/71yRZC+gRbL._SX3000_.jpg" alt="" style="width: 100%;">
+      </div>
+    </div>
+
+    <!-- Products Section  -->
+    <section class="products">
+    <div class="card">
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1583467875263-d50dec37a88c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y3ljbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60" alt="Denim Jeans">
+      </div>
+      <div class="card-detail">
+        <h1>Racing Cybcle</h1>
+        <p class="price">$19.99</p>
+        <p>Best for off-Roading !</p>
+        <p><button class="cart-btn">Add to Cart</button></p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="Denim Jeans">
+      </div>
+      <div class="card-detail">
+        <h1>Shoes</h1>
+        <p class="price">$89.45</p>
+        <p>Party wear</p>
+        <p><button class="cart-btn">Add to Cart</button></p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="Denim Jeans">
+      </div>
+      <div class="card-detail">
+        <h1>SmartWatch</h1>
+        <p class="price">$127</p>
+        <p>Bluetooth connectivity.</p>
+        <p><button class="cart-btn">Add to Cart</button></p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="Denim Jeans">
+      </div>
+      <div class="card-detail">
+        <h1>Headphones</h1>
+        <p class="price">$46.4</p>
+        <p>Wifi Enabled products</p>
+        <p><button class="cart-btn">Add to Cart</button></p>
+      </div>
+    </div>
+    
+    </section>
+    <div id="container"></div>
+    <!-- Footer Menu -->
+    <footer id="footer">
+      <!-- Copyright Section -->
+      <div class="copyright">
+        <p>© All rights reserved | Amazon</p>
+          <ul class="contact">
+              <li>
+                  <a href="#" class="fa fa-twitter">
+                  </a>
+              </li>
+              <li>
+                  <a href="#" class="fa fa-facebook">
+                  </a>
+              </li>
+              <li>
+                  <a href="#" class="fa fa-pinterest-p">
+                  </a>
+              </li>
+          </ul>
+      </div>
+    </footer>
+
+  <script src="./main.js"></script>
+</body>
+</html>

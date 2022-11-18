@@ -15,16 +15,14 @@ window.addEventListener('load', () => {
                     <div class="image-container">
                         <img class="prod-images" src=${product.imageUrl} alt="">
                     </div>
-                                    <div class="prod-details">
+                        <div class="prod-details">
                         <span>$<span>${product.price}</span></span>
                         <button class="shop-item-button" type='button'>ADD TO CART</button>
                     </div>
                 </div>`
             parentNode.innerHTML += productHtml
-
         })
     })
-
 })
 
 document.addEventListener('click',(e)=>{
