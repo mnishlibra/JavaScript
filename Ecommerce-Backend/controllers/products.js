@@ -9,3 +9,16 @@ exports.getProducts = (req,res,next) => {
         console.log(err)
     })
 }
+
+// exports.postAddProducts = (req,res,next) => {
+//     const title = req.body.title;
+//     const imageUrl = req.body.imageUrl;
+//     const price = req.body.price;
+//     const description = req.body.description;
+//     Product.create({
+//         title : title,
+//         imageUrl : imageUrl,
+//         price : price,
+//         description : description
+//     })
+// }

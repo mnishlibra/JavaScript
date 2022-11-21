@@ -4,7 +4,12 @@ const Cart = require('../models/cart')
 exports.postCart = (req, res, next) => {
     const prodId = req.body.productId;
     console.log(prodId)
-    Cart.create({prodId : prodId})
+    try{
+    Cart.create({id : prodId})
+    }
+    catch(err){
+    console.log(err)
+    }
     res.status(200).send({message : "success"})
     
     // let fetchedCart;
@@ -38,3 +43,14 @@ exports.postCart = (req, res, next) => {
     //   })
     //   .catch(err => console.log(err));
 };
+
+
+exports.getCart = (req, res, next) => {
+    Cart.findAll()
+    .then(cart => {
+        res.status(200).send(cart)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}

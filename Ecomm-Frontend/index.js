@@ -31,7 +31,6 @@ document.addEventListener('click',(e)=>{
 
     if (e.target.className=='shop-item-button'){
         const prodId = Number(e.target.parentNode.parentNode.id.split('-')[1]);
-        console.log(prodId);
         axios.post('http://localhost:4000/postCart', { productId: prodId}).then(data => {
             console.log(data.data.message)
             if(data.data.error){
@@ -43,13 +42,12 @@ document.addEventListener('click',(e)=>{
             console.log(err);
             showNotification(err, true);
         });
-
     }
+    
     if (e.target.className=='cart-btn-bottom' || e.target.className=='cart-bottom' || e.target.className=='cart-holder'){
-        axios.get('http://localhost:3000/cart').then(carProducts => {
+        axios.get('http://localhost:4000/getCart').then(carProducts => {
             showProductsInCart(carProducts.data);
             document.querySelector('#cart').style = "display:block;"
-
         })
     }
     if (e.target.className=='cancel'){
