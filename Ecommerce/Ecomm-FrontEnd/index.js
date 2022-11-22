@@ -1,5 +1,6 @@
 const cart_items = document.querySelector('#cart .cart-items');
 const parentNode = document.getElementById('music-content');
+const cart_number = document.getElementsByClassName('cart-number');
 
 window.addEventListener('load', () => {
     console.log('loaded');
@@ -30,7 +31,6 @@ document.addEventListener('click',(e)=>{
     if (e.target.className=='shop-item-button'){
         const prodId = Number(e.target.parentNode.parentNode.id.split('-')[1]);
         axios.post('http://localhost:3000/cart', { productId: prodId}).then(data => {
-            console.log(`http://localhost:3000/cart', { productId: ${prodId}}`)
             if(data.data.error){
                 throw new Error('Unable to add product');
             }
@@ -43,10 +43,10 @@ document.addEventListener('click',(e)=>{
 
     }
     if (e.target.className=='cart-btn-bottom' || e.target.className=='cart-bottom' || e.target.className=='cart-holder'){
+        cart_number[0].innerHTML = 0
         axios.get('http://localhost:3000/cart').then(carProducts => {
             showProductsInCart(carProducts.data);
             document.querySelector('#cart').style = "display:block;"
-
         })
     }
     if (e.target.className=='cancel'){
@@ -68,6 +68,7 @@ function showProductsInCart(listofproducts){
         const name = document.querySelector(`#${id} h3`).innerText;
         const img_src = document.querySelector(`#${id} img`).src;
         const price = product.price;
+        const quantity = product.cartItem.quantity;
         document.querySelector('.cart-number').innerText = parseInt(document.querySelector('.cart-number').innerText)+1
         const cart_item = document.createElement('div');
         cart_item.classList.add('cart-row');
@@ -79,7 +80,7 @@ function showProductsInCart(listofproducts){
         </span>
         <span class='cart-price cart-column'>${price}</span>
         <form onsubmit='deleteCartItem(event, ${product.id})' class='cart-quantity cart-column'>
-            <input type="text" value="1">
+            <input type="text" value="${quantity}">
             <button>REMOVE</button>
         </form>`
         cart_items.appendChild(cart_item)
