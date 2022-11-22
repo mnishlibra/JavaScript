@@ -1,12 +1,10 @@
 const cart_items = document.querySelector('#cart .cart-items');
-
-
 const parentNode = document.getElementById('music-content');
-
 
 window.addEventListener('load', () => {
     console.log('loaded');
-    axios.get('http://localhost:4000/getProducts').then((products) => {
+
+    axios.get('http://localhost:3000/products').then((products) => {
         console.log(products)
         products.data.forEach(product => {
             const productHtml = `
@@ -31,8 +29,8 @@ document.addEventListener('click',(e)=>{
 
     if (e.target.className=='shop-item-button'){
         const prodId = Number(e.target.parentNode.parentNode.id.split('-')[1]);
-        axios.post('http://localhost:4000/postCart', { productId: prodId}).then(data => {
-            console.log(data.data.message)
+        axios.post('http://localhost:3000/cart', { productId: prodId}).then(data => {
+            console.log(`http://localhost:3000/cart', { productId: ${prodId}}`)
             if(data.data.error){
                 throw new Error('Unable to add product');
             }
@@ -42,12 +40,13 @@ document.addEventListener('click',(e)=>{
             console.log(err);
             showNotification(err, true);
         });
+
     }
-    
     if (e.target.className=='cart-btn-bottom' || e.target.className=='cart-bottom' || e.target.className=='cart-holder'){
-        axios.get('http://localhost:4000/getCart').then(carProducts => {
+        axios.get('http://localhost:3000/cart').then(carProducts => {
             showProductsInCart(carProducts.data);
             document.querySelector('#cart').style = "display:block;"
+
         })
     }
     if (e.target.className=='cancel'){
