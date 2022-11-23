@@ -1,35 +1,30 @@
 const cart_items = document.querySelector('#cart .cart-items');
 const parentNode = document.getElementById('music-content');
 const cart_number = document.getElementsByClassName('cart-number');
+const pagination = document.getElementById('pagination');
+const API_Backend = "http://localhost:3000"; 
 
 window.addEventListener('load', () => {
-    console.log('loaded');
-
-    axios.get('http://localhost:3000/products').then((products) => {
-        console.log(products)
-        products.data.forEach(product => {
-            const productHtml = `
-                <div id="album-${product.id}">
-                    <h3>${product.title}</h3>
-                    <div class="image-container">
-                        <img class="prod-images" src=${product.imageUrl} alt="">
-                    </div>
-                                    <div class="prod-details">
-                        <span>$<span>${product.price}</span></span>
-                        <button class="shop-item-button" type='button'>ADD TO CART</button>
-                    </div>
-                </div>`
-            parentNode.innerHTML += productHtml
-
-        })
+    const page = 1; 
+    axios
+    .get(`${API_Backend}/products?page=${page}`)
+    .then(({data : {products , ...pagedata}}) => {
+        listProducts(products);
+        showPagination(pagedata);
     })
-
+    .catch((err) => {
+        console.log(err);
+    })
 })
 
 document.addEventListener('click',(e)=>{
 
     if (e.target.className=='shop-item-button'){
         const prodId = Number(e.target.parentNode.parentNode.id.split('-')[1]);
+        axios.get('http://localhost:3000/cart').then(carProducts => {
+            showProductsInCart(carProducts.data);
+            cart_number[0].innerHTML = 0 ;
+        }) 
         axios.post('http://localhost:3000/cart', { productId: prodId}).then(data => {
             if(data.data.error){
                 throw new Error('Unable to add product');
@@ -43,7 +38,7 @@ document.addEventListener('click',(e)=>{
 
     }
     if (e.target.className=='cart-btn-bottom' || e.target.className=='cart-bottom' || e.target.className=='cart-holder'){
-        cart_number[0].innerHTML = 0
+        cart_number[0].innerHTML = 0 ;
         axios.get('http://localhost:3000/cart').then(carProducts => {
             showProductsInCart(carProducts.data);
             document.querySelector('#cart').style = "display:block;"
@@ -109,3 +104,63 @@ function removeElementFromCartDom(prodId){
         showNotification('Succesfuly removed product')
 }
 
+function listProducts(products){
+    products.forEach(product => {
+        const productHtml = `
+            <div id="album-${product.id}">
+                <h3>${product.title}</h3>
+                <div class="image-container">
+                    <img class="prod-images" src=${product.imageUrl} alt="">
+                </div>
+                                <div class="prod-details">
+                    <span>$<span>${product.price}</span></span>
+                    <button class="shop-item-button" type='button'>ADD TO CART</button>
+                </div>
+            </div>`
+        parentNode.innerHTML += productHtml
+    })
+}
+
+function showPagination({
+    currentPage,
+    hasNextPage,
+    hasPreviousPage,
+    lastPage,
+    nextPage,
+    previousPage
+}) {
+    pagination.innerHTML = '';
+
+    if(hasPreviousPage){
+        const btn2 = document.createElement('button')
+        btn2.innerHTML = previousPage
+        btn2.addEventListener('click', () => getProducts(previousPage))
+        pagination.appendChild(btn2)
+    }
+
+    const btn1 = document.createElement('button')
+    btn1.innerHTML = `<h3>${currentPage}</h3>`
+    btn1.addEventListener('click', () => getProducts(currentPage))
+    pagination.appendChild(btn1)
+
+    if(hasNextPage){
+        const btn3 = document.createElement('button')
+        btn3.innerHTML = nextPage
+        btn3.addEventListener('click', () => getProducts(nextPage))
+        pagination.appendChild(btn3)
+    }
+    
+}
+
+function getProducts(pageNumber){
+    const page = pageNumber; 
+    axios
+    .get(`${API_Backend}/products?page=${page}`)
+    .then(({data : {products , ...pagedata}}) => {
+        listProducts(products);
+        showPagination(pagedata)
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}

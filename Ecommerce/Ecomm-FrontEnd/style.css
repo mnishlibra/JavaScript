@@ -439,3 +439,25 @@ header ul a{
     border-radius:7px;
     padding:5px;
 }
+
+#pagination  {
+    display: inline block;
+    text-align: center;
+    margin-top:  2rem;
+    text-decoration:  none;
+    padding: 0.5rem;
+  }
+  
+  #pagination button {
+    background-color: #56CCF2;
+    border: none;
+    color: white;
+    padding: 16px;;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 5px;
+  }
+  
+  #pagination button:hover:not(.active) {background-color: grey;}

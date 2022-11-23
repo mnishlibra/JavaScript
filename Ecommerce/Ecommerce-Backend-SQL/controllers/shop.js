@@ -1,55 +1,90 @@
 const Product = require('../models/product');
+const ITEMS_PER_PAGE = 2; 
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll()
-    .then(products => {
-      // res.render('shop/product-list', {
-      //   prods: products,
-      //   pageTitle: 'All Products',
-      //   path: '/products'
-      // });
-    res.status(200).send(products);
+  const page = req.query.page ;
+  let totalItems; 
+  Product.count()
+  .then(numProducts => {
+      totalItems = numProducts;
+      return Product.findAll(
+      {offset: (page -1) * ITEMS_PER_PAGE, limit: 2})
+  })
+  .then((products) => {
+    res.status(200).json({
+      products : products,
+      currentPage : page,
+      hasNextPage : ITEMS_PER_PAGE * page < totalItems,
+      nextPage : parseInt(page) + 1 ,
+      hasPreviousPage : page > 1,
+      previousPage : page - 1,
+      lastPage : Math.ceil(totalItems / ITEMS_PER_PAGE)
     })
-    .catch(err => {
-      console.log(err.message);
-    });
-};
-
-exports.getProduct = (req, res, next) => {
-  const prodId = req.params.productId;
-  // Product.findAll({ where: { id: prodId } })
-  //   .then(products => {
-  //     res.render('shop/product-detail', {
-  //       product: products[0],
-  //       pageTitle: products[0].title,
-  //       path: '/products'
-  //     });
-  //   })
-  //   .catch(err => console.log(err));
-  Product.findById(prodId)
-    .then(product => {
-      res.render('shop/product-detail', {
-        product: product,
-        pageTitle: product.title,
-        path: '/products'
-      });
-    })
-    .catch(err => console.log(err));
-};
-
-exports.getIndex = (req, res, next) => {
-  Product.findAll()
-    .then(products => {
-      res.render('shop/index', {
-        prods: products,
-        pageTitle: 'Shop',
-        path: '/'
-      });
-    })
+  })
     .catch(err => {
       console.log(err);
     });
 };
+
+// exports.getProduct = (req, res, next) => {
+//   const prodId = req.params.productId;
+//   Product.findAll({ where: { id: prodId } })
+//     .then(products => {
+//       res.render('shop/product-detail', {
+//         product: products[0],
+//         pageTitle: products[0].title,
+//         path: '/products'
+//       });
+//     })
+//     .catch(err => console.log(err));
+//   Product.findById(prodId)
+//     .then(product => {
+//       res.render('shop/product-detail', {
+//         product: product,
+//         pageTitle: product.title,
+//         path: '/products'
+//       });
+//     })
+//     .catch(err => console.log(err));
+// };
+
+// exports.getIndex = (req, res, next) => {
+//   const page = req.query.page ;
+//   let totalItems; 
+//   Product.count()
+//   .then(numProducts => {
+//       totalItems = numProducts;
+//       return Product.findAll(
+//       {offset: (page -1) * ITEMS_PER_PAGE, limit: 2})
+//   })
+//   // .then(products => {
+//   //     res.render('shop/index', {
+//   //       prods: products,
+//   //       pageTitle: 'Shop',
+//   //       path: '/',
+//   //       currentPage : page,
+//   //       hasNextPage : ITEMS_PER_PAGE * page < totalItems,
+//   //       hasPreviousPage : page > 1,
+//   //       nextPage : page + 1,
+//   //       previousPage : page - 1,
+//   //       lastPage : Math.ceil(totalItems / ITEMS_PER_PAGE)
+//   //     });
+//   //   })
+//   .then((products) => {
+//     res.status(200).json({
+//       products : products,
+//       currentPage : page,
+//       hasNextPage : ITEMS_PER_PAGE * page < totalItems,
+//       nextPage : parseInt(page) + 1 ,
+//       hasPreviousPage : page > 1,
+//       previousPage : page - 1,
+//       lastPage : Math.ceil(totalItems / ITEMS_PER_PAGE)
+//     })
+//   })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// };
 
 exports.getCart = (req, res, next) => {
   req.user
