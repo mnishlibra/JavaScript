@@ -52,7 +52,13 @@ document.addEventListener('click',(e)=>{
             alert('You have Nothing in Cart , Add some products to purchase !');
             return
         }
-        alert('This Feature is yet to be completed ')
+        axios.post("http://localhost:3000/create-order")
+        .then((respone) => {
+            showNotification(respone.data.message , respone.success)
+        })
+        .catch(err => {
+            console.log(err.message)
+        })
     }
 })
 
@@ -60,10 +66,11 @@ function showProductsInCart(listofproducts){
     cart_items.innerHTML = "";
     listofproducts.forEach(product => {
         const id = `album-${product.id}`;
-        const name = document.querySelector(`#${id} h3`).innerText;
-        const img_src = document.querySelector(`#${id} img`).src;
+        // const name = document.querySelector(`#${id} h3`).innerText;
+        const name = `${product.title}`;
+        // const img_src = document.querySelector(`#${id} img`).src;
+        const img_src = `${product.imageUrl}`;
         const price = product.price;
-        const quantity = product.cartItem.quantity;
         document.querySelector('.cart-number').innerText = parseInt(document.querySelector('.cart-number').innerText)+1
         const cart_item = document.createElement('div');
         cart_item.classList.add('cart-row');
@@ -75,12 +82,13 @@ function showProductsInCart(listofproducts){
         </span>
         <span class='cart-price cart-column'>${price}</span>
         <form onsubmit='deleteCartItem(event, ${product.id})' class='cart-quantity cart-column'>
-            <input type="text" value="${quantity}">
+            <input type="text" value="1">
             <button>REMOVE</button>
         </form>`
         cart_items.appendChild(cart_item)
     })
 }
+
 function deleteCartItem(e, prodId){
     e.preventDefault();
     axios.post('http://localhost:3000/cart-delete-item', {productId: prodId})
