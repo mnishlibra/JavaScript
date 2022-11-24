@@ -1,5 +1,6 @@
 const cart_items = document.querySelector('#cart .cart-items');
 const parentNode = document.getElementById('music-content');
+const parentNodeForOrders = document.getElementById('order-content');
 const cart_number = document.getElementsByClassName('cart-number');
 const pagination = document.getElementById('pagination');
 const API_Backend = "http://localhost:3000"; 
@@ -15,6 +16,16 @@ window.addEventListener('load', () => {
     .catch((err) => {
         console.log(err);
     })
+
+    axios
+    .get(`${API_Backend}/orders`)
+    .then((orders) => {
+        listOrderProducts(orders.data);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
 })
 
 document.addEventListener('click',(e)=>{
@@ -66,9 +77,7 @@ function showProductsInCart(listofproducts){
     cart_items.innerHTML = "";
     listofproducts.forEach(product => {
         const id = `album-${product.id}`;
-        // const name = document.querySelector(`#${id} h3`).innerText;
         const name = `${product.title}`;
-        // const img_src = document.querySelector(`#${id} img`).src;
         const img_src = `${product.imageUrl}`;
         const price = product.price;
         document.querySelector('.cart-number').innerText = parseInt(document.querySelector('.cart-number').innerText)+1
@@ -113,6 +122,7 @@ function removeElementFromCartDom(prodId){
 }
 
 function listProducts(products){
+    parentNode.innerHTML = '';
     products.forEach(product => {
         const productHtml = `
             <div id="album-${product.id}">
@@ -125,7 +135,34 @@ function listProducts(products){
                     <button class="shop-item-button" type='button'>ADD TO CART</button>
                 </div>
             </div>`
-        parentNode.innerHTML += productHtml
+        parentNode.innerHTML += productHtml;
+    })
+}
+
+function listOrderProducts(orders){
+    console.log(orders)
+    parentNodeForOrders.innerHTML = '';
+
+    if(orders.length < 0){
+        alert("No orders done Yet, Order something !")
+    }
+
+    orders.forEach(order => {
+
+        let id = document.createElement('ul');
+        id.innerText= `#Order id = ${order.id}`;
+        document.querySelector('#order-content').appendChild(id);
+
+        order.products.forEach(product => {
+
+            let title = document.createElement('li');
+            title.innerText=  `Product = ${product.title}`;
+            document.querySelector('#order-content').appendChild(title);
+
+            let quantity = document.createElement('li');
+            quantity.innerText= `quantity = ${product.orderItem.quantity}` ;
+            document.querySelector('#order-content').appendChild(quantity)
+        })
     })
 }
 
