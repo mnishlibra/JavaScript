@@ -19,7 +19,9 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const { urlencoded } = require('body-parser');
 
+// app.use(express.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 

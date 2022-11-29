@@ -156,12 +156,12 @@ function listOrderProducts(orders){
         order.products.forEach(product => {
 
             let title = document.createElement('li');
-            title.innerText=  `Product = ${product.title}`;
+            title.innerText=  `${product.title}(${product.orderItem.quantity}-Q)`;
             document.querySelector('#order-content').appendChild(title);
-
-            let quantity = document.createElement('li');
-            quantity.innerText= `quantity = ${product.orderItem.quantity}` ;
-            document.querySelector('#order-content').appendChild(quantity)
+            
+            // let quantity = document.createElement('li');
+            // quantity.innerText= `quantity = ${product.orderItem.quantity}` ;
+            // document.querySelector('#order-content').appendChild(quantity)
         })
     })
 }
