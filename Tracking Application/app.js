@@ -5,7 +5,8 @@ const sequelize = require('./util/database');
 const user = require('./model/user');
 const port = 3000;
 const routes = require('./route/route');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
 app.use(bodyParser.json());
 app.use(cors());
