@@ -30,7 +30,12 @@ function login(event) {
     }
     axios.post(`http://localhost:3000/user/login`,obj)
     .then((response) => {
-        console.log(response.data.message)
+        if(response.data.success){
+            alert(response.data.message)
+        }
+        else{
+            alert('Either email or password is incorrect')
+        }
     })
     .catch((err) => {
         console.log(err)
