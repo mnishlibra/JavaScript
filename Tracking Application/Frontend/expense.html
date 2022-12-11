@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Expense Tracking Application</title>
+</head>
+<body>
+    <header>
+        <h2>Welcome to Your Expense Tracker</h2>
+    </header>
+
+    <section class="signup">
+        <br>
+        <form method="post" action="./expense.html" onsubmit="Postexpense(event)" class="form">
+
+        <label for="money">Money spent : </label>
+        <input id="money" type="number" required placeholder="Enter Money spent"> <br> <br>
+
+        <label for="description ">Description  : </label>
+        <input id="description" type="text" required placeholder="Enter description "> <br> <br>
+
+        <label>Category : </label> 
+        <select name="category" id="category">
+            <option value="Movies">Movies</option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Night-Out">Night-Out</option>
+            <option value="Night-Out">Petrol</option>
+            <option value="Night-Out">Salary</option>
+        </select>    
+        <br> <br>
+        <input id="submitbtn" type="submit" value="Add Expense"> <br> <br>
+        </form>
+    </section>
+    <br><br>
+    <section>
+        <ul id="listofExpenses"></ul>
+    </section>
+
+    <footer>
+        <h3>Author : Manish Pandey</h3>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js" integrity="sha512-zJYu9ICC+mWF3+dJ4QC34N9RA0OVS1XtPbnf6oXlvGrLGNB8egsEzu/5wgG90I61hOOKvcywoLzwNmPqGAdATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js" integrity="sha512-zJYu9ICC+mWF3+dJ4QC34N9RA0OVS1XtPbnf6oXlvGrLGNB8egsEzu/5wgG90I61hOOKvcywoLzwNmPqGAdATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
