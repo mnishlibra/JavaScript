@@ -1,4 +1,16 @@
-showExpensesOnScreen()
+function getExpenses() {
+    const token = localStorage.getItem('token');
+    axios
+    .get('http://localhost:3000/user/getexpenses', { headers : {"Authorization" : token}})
+    .then( response => {
+        showExpensesOnScreen(response);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+getExpenses();
 
 function signup(event) {
     event.preventDefault();
@@ -17,10 +29,10 @@ function signup(event) {
         alert(response.data.message);
     })
     .catch((err) => {
-        console.log(err)
+        alert(err.response.data.message);
+        console.log(err);
     })
 }
-
 
 function login(event) {
     event.preventDefault();
@@ -32,9 +44,11 @@ function login(event) {
     }
     axios.post(`http://localhost:3000/user/login`,obj)
     .then((response) => {
+        console.log(response)
         if(response.data.success){
-            location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/expense.html#");
             alert(response.data.message)
+            localStorage.setItem('token',response.data.token )
+            location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/expense.html#");
         }
         else{
             alert('Either email or password is incorrect')
@@ -50,17 +64,15 @@ function Postexpense(event) {
     const amount = document.getElementById('money');
     const description = document.getElementById('description');
     const category = document.getElementById('category');
+    const token = localStorage.getItem('token');
     const obj = {
         amount : amount.value,
         description : description.value,
         category : category.value
     }
-    showExpensesOnScreen();
-    console.log(obj);
-    axios.post(`http://localhost:3000/user/expenses`,obj)
+    axios.post(`http://localhost:3000/user/expenses`, obj , {headers : {"Authorization" : token}})
     .then((response) => {
-        showExpensesOnScreen()
-        console.log(response)
+        getExpenses();
     })
     .catch((err) => {
         console.log(err)
@@ -73,17 +85,10 @@ function showStatusOnScreen(message) {
     document.body.appendChild(para);
 }
 
-function showExpensesOnScreen() {
-    document.getElementById('money').value = '';
-    document.getElementById('description').value = '';
-    document.getElementById('category').value ='';
-
-    axios
-    .get('http://localhost:3000/user/getexpenses')
-    .then(response => {
-        console.log(response)
+function showExpensesOnScreen(response) 
+{        
         const parentNode = document.getElementById('listofExpenses');
-        let data = ''
+        let data = '' ;
         for(let i=0; i<response.data.response.length; i++){
             let expenses = response.data.response[i]
             data += `<div id=${expenses.id}>
@@ -95,20 +100,17 @@ function showExpensesOnScreen() {
             </div>`
         }
         parentNode.innerHTML = data;
-    })
-    .catch(err => {
-        console.log(err)
-    })
 }
 
 const parentNode = document.getElementById('listofExpenses');
 parentNode.addEventListener('click', (e) => {
     if(e.target.className == "deletebtn"){
         let id = e.target.id;
+        const token = localStorage.getItem('token');
         try{
-            axios.delete(`http://localhost:3000/deleteexpense/${id}`)
+            axios.delete(`http://localhost:3000/deleteexpense/${id}`, { headers : {"Authorization" : token}})
             .then((response) => {
-                showExpensesOnScreen()
+                getExpenses();
             })
             .catch(err => {
                 console.log(err);

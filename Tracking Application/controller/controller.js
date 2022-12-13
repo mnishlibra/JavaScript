@@ -1,23 +1,27 @@
 const { response } = require('express');
 const express = require('express');
 const { where } = require('sequelize');
-const user = require('../model/user');
 const expense = require('../model/expense');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const user = require('../model/user');
 
-function isEmpty(str){
-    if(str.length < 0){
-        return true;
-    }
-    return false;
+function generateAccessToken(id,name) {
+    return jwt.sign( {userId : id , name : name} ,'secretkey')
 }
 
-exports.postNewUser = ( async (req,res,next) => {
+exports.signUp = ( async (req,res,next) => {
     
     try{
     const {name,email,password} = req.body;
-    if(isEmpty(name) || isEmpty(email) || isEmpty(password)){
-        res.status(400).json({message : 'All the Inputfields are Mandatory'});
+    if (!(email && password && name)) {
+        res.status(400).json({ message :  "All input are required"});
+    }
+
+    const oldUser = await user.findOne({ where : { email : email } });
+
+    if (oldUser) {
+      return res.status(409).json({ message : "User Already Exist. Please Login" });
     }
 
     const saltRounds = 10;
@@ -37,18 +41,20 @@ exports.postNewUser = ( async (req,res,next) => {
 
 exports.loginUser = ( async (req,res,next) => {
 
-    const {email,password} = req.body;
-    if(isEmpty(email) || isEmpty(password)){
-        res.status(400).json({message : 'All the Inputfields are Mandatory'});
+    const { email , password } = req.body
+
+    if (!(email && password)) {
+        res.status(400).json("All input are required");
     }
-    
+
     user.findAll({where : {email}}).then((user) => {
         if(user.length > 0){
             const hash = user[0].password ;
+
             bcrypt.compare(password, hash, function(err, result) {
                 console.log(result)
                 if(result){
-                    return res.status(200).json({ success : true , message : 'User Logged in Successfully'});
+                    return res.status(200).json({ success : true , message : 'User Logged in Successfully' , token : generateAccessToken(user[0].id , user[0].name)});
                 }
                 else {
                     return res.status(401).json({ success : false ,  message : "Password is incorrect" });
@@ -62,10 +68,11 @@ exports.loginUser = ( async (req,res,next) => {
 })
 
 exports.postExpense =  ((req,res,next) => {
+;
     const{amount,description,category} = req.body;
-    
-        expense.create(    
-            {amount,description,category}
+
+        req.user.createExpense(    
+            {amount,description,category,userId:req.user.id}
         ).then(
             response => res.json(response)
         ).catch(
@@ -74,7 +81,7 @@ exports.postExpense =  ((req,res,next) => {
 })
 
 exports.getExpense = ((req,res,next) => {
-    expense.findAll()
+    req.user.getExpenses()
     .then(response => {
         res.status(200).json({response})
     })
@@ -86,7 +93,10 @@ exports.getExpense = ((req,res,next) => {
 exports.deleteExpense = async (req,res,next) => {
     try{
     const id = req.params.id;
-    await expense.destroy({where : {id:id}});
+    await expense.destroy({where : {
+        id:id,
+        userId:req.user.id
+    }});
     res.sendStatus(202);
     }
     catch{
