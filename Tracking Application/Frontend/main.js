@@ -133,6 +133,7 @@ parentNode.addEventListener('click', (e) => {
 })
 
 document.getElementById('pay-button').onclick = async function (e) {
+    const token = localStorage.getItem('token');
     const response  = await axios.get('http://localhost:3000/createOrder', { headers: {"Authorization" : token} });
     console.log(response);
     var options =
@@ -151,7 +152,7 @@ document.getElementById('pay-button').onclick = async function (e) {
      // This handler function will handle the success payment
      "handler": function (response) {
          console.log(response);
-         axios.post('http://localhost:3000/purchase/updatetransactionstatus',{
+         axios.post('http://localhost:3000/updateOrder',{
              order_id: options.order_id,
              payment_id: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} }).then(() => {

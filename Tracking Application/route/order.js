@@ -4,6 +4,6 @@ const Authentication = require('../middleware/auth');
 const Order = require('../controller/purchase');
 
 router.get('/createOrder', Authentication.authenticate , Order.createOrder);
-router.post('/updatetransactionstatus', authenticatemiddleware.authenticate, purchaseController.updateTransactionStatus)
+router.post('/updateOrder', Authentication.authenticate, Order.updateOrder)
 
 module.exports = router;

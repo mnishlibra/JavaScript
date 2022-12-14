@@ -28,7 +28,7 @@ const createOrder  =async (req, res) => {
     }
 }
 
- const updateTransactionStatus = (req, res ) => {
+ const updateOrder = (req, res ) => {
     try {
         const { payment_id, order_id} = req.body;
         Order.findOne({where : {orderid : order_id}}).then(order => {
@@ -50,5 +50,5 @@ const createOrder  =async (req, res) => {
 
 module.exports = {
     createOrder,
-    updateTransactionStatus
+    updateOrder
 }
