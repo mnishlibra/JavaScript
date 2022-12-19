@@ -1,6 +1,10 @@
 const Razorpay = require('razorpay');
-const Order = require('../model/order')
+const Order = require('../model/order');
+const jwt = require('jsonwebtoken');
 
+function generateAccessToken(id,name,isPremium){
+    return jwt.sign( {userId : id , name : name , isPremium } ,'secretkey')
+}
 
 const createOrder  =async (req, res) => {
     try {
@@ -22,7 +26,8 @@ const createOrder  =async (req, res) => {
                 throw new Error(err)
             })
         })
-    } catch(err){
+    }
+    catch(err){
         console.log(err);
         res.status(403).json({ message: 'Sometghing went wrong', error: err})
     }
@@ -30,11 +35,12 @@ const createOrder  =async (req, res) => {
 
  const updateOrder = (req, res ) => {
     try {
+        const userId = req.user.id;
         const { payment_id, order_id} = req.body;
         Order.findOne({where : {orderid : order_id}}).then(order => {
             order.update({ paymentid: payment_id, status: 'SUCCESSFUL'}).then(() => {
-                req.user.update({ispremiumuser: true})
-                return res.status(202).json({sucess: true, message: "Transaction Successful"});
+                req.user.update({isPremium: true})
+                return res.status(202).json({sucess: true, message: "Transaction Successful" , token : generateAccessToken(userId,undefined,true)});
             }).catch((err)=> {
                 throw new Error(err);
             })

@@ -10,7 +10,7 @@ function getExpenses() {
     })
 }
 
-getExpenses();
+getExpenses()
 
 function signup(event) {
     event.preventDefault();
@@ -85,6 +85,16 @@ function showStatusOnScreen(message) {
     document.body.appendChild(para);
 }
 
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
 function showExpensesOnScreen(response) 
 {        
         const parentNode = document.getElementById('listofExpenses');
@@ -133,9 +143,9 @@ parentNode.addEventListener('click', (e) => {
 })
 
 document.getElementById('pay-button').onclick = async function (e) {
+    console.log('PremClicked')
     const token = localStorage.getItem('token');
     const response  = await axios.get('http://localhost:3000/createOrder', { headers: {"Authorization" : token} });
-    console.log(response);
     var options =
     {
      "key": response.data.key_id, // Enter the Key ID generated from the Dashboard
@@ -155,10 +165,12 @@ document.getElementById('pay-button').onclick = async function (e) {
          axios.post('http://localhost:3000/updateOrder',{
              order_id: options.order_id,
              payment_id: response.razorpay_payment_id,
-         }, { headers: {"Authorization" : token} }).then(() => {
-             alert('You are a Premium User Now')
-         }).catch(() => {
-             alert('Something went wrong. Try Again!!!')
+         }, { headers: {"Authorization" : token} }).then( async(response) => {
+                localStorage.setItem('isPremium' , response.data.token);
+                UpdateIspremium();
+            })
+         .catch(() => {
+            alert('Something went wrong. Try Again!!!')
          })
      },
   };
@@ -176,3 +188,25 @@ document.getElementById('pay-button').onclick = async function (e) {
   alert(response.error.metadata.payment_id);
  }
 )}
+
+function showPremiumOnScreen(){
+    document.getElementById('pay-button').style.visibility = "hidden" ;
+    document.getElementById('isPremium').innerHTML = "You are a Premium User"
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    UpdateIspremium();
+})
+
+function UpdateIspremium() {
+    let token = localStorage.getItem('isPremium');
+    let ParsedToken = parseJwt(token);
+    if(ParsedToken.isPremium){
+        showPremiumOnScreen()
+    }
+}
+ 
+
+document.getElementById('logout').addEventListener('click', () => {
+    localStorage.clear()
+    location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/login.html#");})
