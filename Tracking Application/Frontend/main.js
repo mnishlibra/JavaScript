@@ -196,6 +196,7 @@ function showPremiumOnScreen(){
 
 window.addEventListener("DOMContentLoaded", () => {
     UpdateIspremium();
+    document.getElementById("show-leaderboard").style.visibility = "visible";
 })
 
 function UpdateIspremium() {
@@ -210,3 +211,29 @@ function UpdateIspremium() {
 document.getElementById('logout').addEventListener('click', () => {
     localStorage.clear()
     location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/login.html#");})
+
+function showLeaderBoard() {
+    const parentNode = document.getElementById("showLeaderBoard");
+    
+    axios.get('http://localhost:3000/Premium/showleaderboard').then((response) => {
+        showExpensesOnScreen(response)
+    })
+    
+    
+    let data = '' ;
+    for(let i=0; i<response.data.response.length; i++){
+        let expenses = response.data.response[i]
+        data += `<div id=${expenses.id}>
+        <span id="editamount"> ${expenses.amount}</span>
+        <span id="editdescription"> ${expenses.description}</span>
+        <span id="editcategory"> ${expenses.category}</span>
+        <button id=${expenses.id} class="editbtn">edit</button>
+        <button id=${expenses.id} class="deletebtn">delete</button>
+        </div>`
+    }
+    parentNode.innerHTML = data;
+}
+
+document.getElementById("show-leaderboard").onclick = async () => {
+    showLeaderBoard()
+}
