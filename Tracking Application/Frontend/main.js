@@ -196,7 +196,6 @@ function showPremiumOnScreen(){
 
 window.addEventListener("DOMContentLoaded", () => {
     UpdateIspremium();
-    document.getElementById("show-leaderboard").style.visibility = "visible";
 })
 
 function UpdateIspremium() {
@@ -204,36 +203,31 @@ function UpdateIspremium() {
     let ParsedToken = parseJwt(token);
     if(ParsedToken.isPremium){
         showPremiumOnScreen()
+        showLeaderBoard()
     }
 }
+
+function showLeaderBoard() {
+    const inputElement = document.createElement("input")
+    inputElement.type = "button"
+    inputElement.value = 'Show Leaderboard'
+    inputElement.onclick = async() => {
+        const token = localStorage.getItem('token')
+        const userLeaderBoardArray = await axios.get('http://localhost:3000/premium/showLeaderBoard', { headers: {"Authorization" : token} })
+        console.log(userLeaderBoardArray)
+        console.log('I am')
+        var leaderboardElem = document.getElementById('showLeaderBoard')
+        leaderboardElem.innerHTML += '<h1> Leader Board </<h1>'
+        userLeaderBoardArray.data.forEach((userDetails) => {
+            leaderboardElem.innerHTML += `<li>Name - ${userDetails.name} Total Expense - ${userDetails.total_cost || 0} </li>`
+        })
+    }   
+    document.getElementById("listofExpenses").appendChild(inputElement);
+}
+
  
 
 document.getElementById('logout').addEventListener('click', () => {
     localStorage.clear()
-    location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/login.html#");})
-
-function showLeaderBoard() {
-    const parentNode = document.getElementById("showLeaderBoard");
-    
-    axios.get('http://localhost:3000/Premium/showleaderboard').then((response) => {
-        showExpensesOnScreen(response)
-    })
-    
-    
-    let data = '' ;
-    for(let i=0; i<response.data.response.length; i++){
-        let expenses = response.data.response[i]
-        data += `<div id=${expenses.id}>
-        <span id="editamount"> ${expenses.amount}</span>
-        <span id="editdescription"> ${expenses.description}</span>
-        <span id="editcategory"> ${expenses.category}</span>
-        <button id=${expenses.id} class="editbtn">edit</button>
-        <button id=${expenses.id} class="deletebtn">delete</button>
-        </div>`
-    }
-    parentNode.innerHTML = data;
-}
-
-document.getElementById("show-leaderboard").onclick = async () => {
-    showLeaderBoard()
-}
+    location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/login.html#");
+})

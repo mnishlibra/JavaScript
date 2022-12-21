@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Order = require('../controller/purchase');
+const PremiumController = require('../controller/premium');
+const Authentication = require('../middleware/auth')
 
-router.get('/Premium/showleaderboard' ,Order.createOrder);
-router.post('/updateOrder', Authentication.authenticate, Order.updateOrder)
+router.get('/premium/showleaderboard',Authentication.authenticate,PremiumController.getUserLeaderBoard);
 
 module.exports = router;

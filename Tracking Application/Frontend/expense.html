@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Expense Tracking Application</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js" integrity="sha512-zJYu9ICC+mWF3+dJ4QC34N9RA0OVS1XtPbnf6oXlvGrLGNB8egsEzu/5wgG90I61hOOKvcywoLzwNmPqGAdATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 <body>
     <header>
@@ -13,10 +15,10 @@
     </header>
     <br>
     <button id="pay-button">Premium</button>
-    <button id="show-leaderboard" style="visibility: hidden;">Show LeaderBoard</button>
-
-    <div id="isPremium"></div>
+    <button id="show-leaderboardBtn" style="visibility: hidden" >Show LeaderBoard</button>
     
+    <div id="isPremium"></div>
+
     <section class="signup">
         <br>
         <form method="post" action="./expense.html" onsubmit="Postexpense(event)" class="form">
