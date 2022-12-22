@@ -1,3 +1,26 @@
+const forgotBtn = document.getElementById('forgotbtn')
+if(forgotBtn){
+    forgotBtn.addEventListener('click', () => {
+        location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/forgetpasswordForm.html#");
+    })
+}
+
+function forgotPasswod(event) {
+    event.preventDefault()
+    const email = document.getElementById('email')
+    const obj = {
+        email 
+    }
+    axios
+    .post('http://localhost:3000/password/forgotpassword',obj)
+    .then(response => {
+        console.log(response)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+    
 function getExpenses() {
     const token = localStorage.getItem('token');
     axios
@@ -113,81 +136,88 @@ function showExpensesOnScreen(response)
 }
 
 const parentNode = document.getElementById('listofExpenses');
-parentNode.addEventListener('click', (e) => {
-    if(e.target.className == "deletebtn"){
-        let id = e.target.id;
+if(parentNode){
+    parentNode.addEventListener('click', (e) => {
+        if(e.target.className == "deletebtn"){
+            let id = e.target.id;
+            const token = localStorage.getItem('token');
+            try{
+                axios.delete(`http://localhost:3000/deleteexpense/${id}`, { headers : {"Authorization" : token}})
+                .then((response) => {
+                    getExpenses();
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+                }
+                catch{
+                    console.error('Delete is not Taking Place');
+                }
+        }
+        if(e.target.className =='editbtn'){
+        let amount = e.target.parentElement.querySelector('#editamount').innerHTML;
+        let description = e.target.parentElement.querySelector('#editdescription').innerHTML;
+        let category = e.target.parentElement.querySelector('#editcategory').innerHTML;
+        document.getElementById('money').value = amount
+        document.getElementById('description').value = description;
+        document.getElementById('category').value = category;
+        let editID = e.target.id;
+        id = editID;  
+        }
+    })
+}
+
+const paybtn = document.getElementById('pay-button');
+
+if(paybtn){
+    paybtn.onclick = async function (e) {
+        console.log('PremClicked')
         const token = localStorage.getItem('token');
-        try{
-            axios.delete(`http://localhost:3000/deleteexpense/${id}`, { headers : {"Authorization" : token}})
-            .then((response) => {
-                getExpenses();
-            })
-            .catch(err => {
-                console.log(err);
-            })
-            }
-            catch{
-                console.error('Delete is not Taking Place');
-            }
-    }
-    if(e.target.className =='editbtn'){
-    let amount = e.target.parentElement.querySelector('#editamount').innerHTML;
-    let description = e.target.parentElement.querySelector('#editdescription').innerHTML;
-    let category = e.target.parentElement.querySelector('#editcategory').innerHTML;
-    document.getElementById('money').value = amount
-    document.getElementById('description').value = description;
-    document.getElementById('category').value = category;
-    let editID = e.target.id;
-    id = editID;  
-    }
-})
+        const response  = await axios.get('http://localhost:3000/createOrder', { headers: {"Authorization" : token} });
+        var options =
+        {
+         "key": response.data.key_id, // Enter the Key ID generated from the Dashboard
+         "name": "Test Company",
+         "order_id": response.data.order.id, // For one time payment
+         "prefill": {
+           "name": "Test User",
+           "email": "test.user@example.com",
+           "contact": "7003442036"
+         },
+         "theme": {
+          "color": "#3399cc"
+         },
+         // This handler function will handle the success payment
+         "handler": function (response) {
+             console.log(response);
+             axios.post('http://localhost:3000/updateOrder',{
+                 order_id: options.order_id,
+                 payment_id: response.razorpay_payment_id,
+             }, { headers: {"Authorization" : token} }).then( async(response) => {
+                    localStorage.setItem('isPremium' , response.data.token);
+                    UpdateIspremium();
+                })
+             .catch(() => {
+                alert('Something went wrong. Try Again!!!')
+             })
+         },
+      };
+      const rzp1 = new Razorpay(options);
+      rzp1.open();
+      e.preventDefault();
+    
+      rzp1.on('payment.failed', function (response){
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+     }
+    )}
+}
 
-document.getElementById('pay-button').onclick = async function (e) {
-    console.log('PremClicked')
-    const token = localStorage.getItem('token');
-    const response  = await axios.get('http://localhost:3000/createOrder', { headers: {"Authorization" : token} });
-    var options =
-    {
-     "key": response.data.key_id, // Enter the Key ID generated from the Dashboard
-     "name": "Test Company",
-     "order_id": response.data.order.id, // For one time payment
-     "prefill": {
-       "name": "Test User",
-       "email": "test.user@example.com",
-       "contact": "7003442036"
-     },
-     "theme": {
-      "color": "#3399cc"
-     },
-     // This handler function will handle the success payment
-     "handler": function (response) {
-         console.log(response);
-         axios.post('http://localhost:3000/updateOrder',{
-             order_id: options.order_id,
-             payment_id: response.razorpay_payment_id,
-         }, { headers: {"Authorization" : token} }).then( async(response) => {
-                localStorage.setItem('isPremium' , response.data.token);
-                UpdateIspremium();
-            })
-         .catch(() => {
-            alert('Something went wrong. Try Again!!!')
-         })
-     },
-  };
-  const rzp1 = new Razorpay(options);
-  rzp1.open();
-  e.preventDefault();
-
-  rzp1.on('payment.failed', function (response){
-  alert(response.error.code);
-  alert(response.error.description);
-  alert(response.error.source);
-  alert(response.error.step);
-  alert(response.error.reason);
-  alert(response.error.metadata.order_id);
-  alert(response.error.metadata.payment_id);
- }
-)}
 
 function showPremiumOnScreen(){
     document.getElementById('pay-button').style.visibility = "hidden" ;
@@ -195,7 +225,10 @@ function showPremiumOnScreen(){
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    UpdateIspremium();
+    const token = localStorage.getItem('token');
+    if(token){
+        UpdateIspremium();
+    }
 })
 
 function UpdateIspremium() {
@@ -225,9 +258,13 @@ function showLeaderBoard() {
     document.getElementById("listofExpenses").appendChild(inputElement);
 }
 
- 
+ const logoutBtn = document.getElementById('logout')
 
-document.getElementById('logout').addEventListener('click', () => {
-    localStorage.clear()
-    location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/login.html#");
-})
+ if(logoutBtn) {
+     document.getElementById('logout').addEventListener('click', () => {
+         localStorage.clear()
+         location.assign("file:///C:/Users/mnish/JavaScript/Tracking%20Application/Frontend/login.html#");
+     })
+ }
+
+

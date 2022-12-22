@@ -28,7 +28,3 @@ const getUserLeaderBoard = async (req, res) => {
 module.exports = {
     getUserLeaderBoard
 }
-
-module.exports = {
-    getUserLeaderBoard
-}

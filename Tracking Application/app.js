@@ -13,6 +13,7 @@ const userRoutes = require('./route/user');
 const orderRoutes = require('./route/order');
 const ExpenseRoutes = require('./route/expense');
 const Premium = require('./route/premium');
+const forgotPassword = require('./route/forgotpassword');
 
 const port = 3000;
 
@@ -32,6 +33,7 @@ app.use(userRoutes);
 app.use(orderRoutes);
 app.use(ExpenseRoutes);
 app.use(Premium)
+app.use(forgotPassword);
 
 sequelize
 // .sync({force : true})
