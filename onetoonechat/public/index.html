@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+</head>
+<body>
+    <form method="post" action="#" onsubmit="chat(event)" class="chat">
+        <label for="messages">Enter Message to your friend !</label> <br> <br>
+        <input id="message" type="text" required placeholder="Enter Message">
+        <input id="submitbtn" type="submit" value="Click to send">
+        <br> <br>
+    </form>
+    <ul id="listOfmessages"></ul>
+    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js" integrity="sha512-zJYu9ICC+mWF3+dJ4QC34N9RA0OVS1XtPbnf6oXlvGrLGNB8egsEzu/5wgG90I61hOOKvcywoLzwNmPqGAdATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>

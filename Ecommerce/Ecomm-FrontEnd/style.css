@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap'); */
 
 * {
     box-sizing: border-box;
@@ -14,7 +14,7 @@ header {
     margin:0;
     padding:0px;
     padding-bottom:30px;
-    background:#777;
+    background:rgb(180, 169, 169);
     color:white;
 }
 
