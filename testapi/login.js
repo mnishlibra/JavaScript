@@ -22,100 +22,132 @@ Thanks,
 ${MY_NAME}
 `;
 
-const sendInvitations = async (client, companyIds) => {
-  const peopleScroller = client.search.searchPeople({
-    filters: {
-      currentCompany: companyIds,
-      geoUrn: COUNTRY_CODE,
-      network: NETORK_TYPE,
-    },
-  });
+// const sendInvitations = async (client, companyIds) => {
+//   const peopleScroller = client.search.searchPeople({
+//     filters: {
+//       currentCompany: companyIds,
+//       geoUrn: COUNTRY_CODE,
+//       network: NETORK_TYPE,
+//     },
+//   });
 
-  let searchHits;
-  let counter = 0;
+//   let searchHits;
+//   let counter = 0;
 
-  while ((searchHits = await peopleScroller.scrollNext()) && searchHits.length) {
-    for (const searchHit of searchHits) {
-      const { profile } = searchHit;
-      await client.invitation.sendInvitation({
-        profileId: profile.profileId,
-        trackingId: profile.trackingId,
-      });
+//   while ((searchHits = await peopleScroller.scrollNext()) && searchHits.length) {
+//     for (const searchHit of searchHits) {
+//       const { profile } = searchHit;
+//       await client.invitation.sendInvitation({
+//         profileId: profile.profileId,
+//         trackingId: profile.trackingId,
+//       });
 
-      await wait(3);
-    }
-    if (counter === 3) {
-      counter = 0;
-      await wait(1800);
-    } else {
-      counter += 1;
-      await wait(10);
-    }
-  }
+//       await wait(3);
+//     }
+//     if (counter === 3) {
+//       counter = 0;
+//       await wait(1800);
+//     } else {
+//       counter += 1;
+//       await wait(10);
+//     }
+//   }
 
-  console.log('Finished processing all search results!');
-};
+//   console.log('Finished processing all search results!');
+// };
 
-const sendMessages = async (client, companyIds) => {
-  const connectionsScroller = client.search.searchOwnConnections({
-    filters: {
-      currentCompany: companyIds,
-      geoUrn: COUNTRY_CODE,
-    },
-  });
+// const sendMessages = async (client, companyIds) => {
+//   const connectionsScroller = client.search.searchOwnConnections({
+//     filters: {
+//       currentCompany: companyIds,
+//       geoUrn: COUNTRY_CODE,
+//     },
+//   });
 
-  let connections;
-  let counter = 0;
+//   let connections;
+//   let counter = 0;
 
-  while ((connections = await connectionsScroller.scrollNext()) && connections.length) {
-    for (const connection of connections) {
-      const { profile } = connection;
+//   while ((connections = await connectionsScroller.scrollNext()) && connections.length) {
+//     for (const connection of connections) {
+//       const { profile } = connection;
 
-      const [conversation] = await client
-        .conversation
-        .getConversations({
-          recipients: profile.profileId,
-        })
-        .scrollNext();
+//       const [conversation] = await client
+//         .conversation
+//         .getConversations({
+//           recipients: profile.profileId,
+//         })
+//         .scrollNext();
 
-      if (!conversation) {
-        const message = buildMessage(profile);
+//       if (!conversation) {
+//         const message = buildMessage(profile);
 
-        await client.message.sendMessage({
-          profileId: profile.profileId,
-          text: message,
-        });
+//         await client.message.sendMessage({
+//           profileId: profile.profileId,
+//           text: message,
+//         });
 
-        counter += 1;
-        await wait(5);
-      }
-    }
+//         counter += 1;
+//         await wait(5);
+//       }
+//     }
 
-    if (counter === 30) {
-      counter = 0;
-      await wait(1800);
-    } else {
-      await wait(10);
-    }
-  }
+//     if (counter === 30) {
+//       counter = 0;
+//       await wait(1800);
+//     } else {
+//       await wait(10);
+//     }
+//   }
 
-  console.log('Finished processing all connections!');
-};
+//   console.log('Finished processing all connections!');
+// };
 
 (async () => {
   const client = new Client();
   await client.login.userPass({ username: USERNAME, password: PASSWORD });
 
-  const [[{ company: google }], [{ company: microsoft }], [{ company: facebook }], [{ company: linkedin }]] = await Promise.all([
-    client.search.searchCompanies({ keywords: 'TCS' }).scrollNext(),
-    client.search.searchCompanies({ keywords: 'Microsoft' }).scrollNext(),
-    client.search.searchCompanies({ keywords: 'Facebook' }).scrollNext(),
-    client.search.searchCompanies({ keywords: 'LinkedIn' }).scrollNext(),
-  ]);
+  // const [[{ company: google }], [{ company: microsoft }], [{ company: facebook }], [{ company: linkedin }]] = await Promise.all([
+  //   client.search.searchCompanies({ keywords: 'TCS' }).scrollNext(),
+  //   client.search.searchCompanies({ keywords: 'Microsoft' }).scrollNext(),
+  //   client.search.searchCompanies({ keywords: 'Facebook' }).scrollNext(),
+  //   client.search.searchCompanies({ keywords: 'LinkedIn' }).scrollNext(),
+  // ]);
 
-  const companyIds = [google.companyId, microsoft.companyId, facebook.companyId, linkedin.companyId];
-  sendInvitations(client, companyIds);
-  setInterval(() => {
-    sendMessages(client, companyIds);
-  }, 14400000);
+  // const companyIds = [google.companyId, microsoft.companyId, facebook.companyId, linkedin.companyId];
+  // sendInvitations(client, companyIds);
+  // setInterval(() => {
+  //   sendMessages(client, companyIds);
+  // }, 14400000);
+
+  // const peopleScroller = await client.search.searchPeople({
+  //   keywords: 'Bill Gates'
+  // });
+
+  // const [{ profile: billGates }] = await peopleScroller.scrollNext();
+  // console.log(billGates)
+
+  // await client.invitation.sendInvitation({
+  //   profileId: billGates.profileId,
+  //   trackingId: billGates.trackingId,
+  // });
+
+
+  // // Search in my connections
+  // const ownConnectionsScroller = await client.search.searchOwnConnections({ keywords: 'Bill Gates', limit: 1 });
+  // const connections = await ownConnectionsScroller.scrollNext();
+
+  //   // Get conversation
+  //   const [billConversation] = await client.conversation.getConversations({
+  //     recipients: billGates.profileId
+  //   }).scrollNext();
+   
+  //   // const conversationMessages = await client.message.getMessages({
+  //   //   conversationId: billConversation.conversationId
+  //   // }).scrollNext()
+
+// Send a message
+  const sentMessage = await client.message.sendMessage({
+    profileId: 'williamhgates',
+    text: 'Hey Bill!',
+  })
 })();
