@@ -1,11 +1,10 @@
 const User = require('../Models/User');
-const Company = require('../Models/Company');
 
 exports.getAllUsers = async (req,res,next) => {
     try{
         const user = await User.findAll()
         return res.status(200).json({'success' : true ,   user : user})
-    } catch(err){
+    }catch(err){
         console.log(err)
         return res.status(400).json({'success' : false , 'Message' : 'users not found' })
     }
@@ -16,6 +15,7 @@ exports.createUser = async (req,res,next) => {
         const {firstName,lastName,email,designation,dateOfBirth,isActive} = req.body;
         var activeOrNot = isActive ? 1 : 0;
         console.log(isActive,activeOrNot)
+
         await User.create({
             firstName : firstName,
             lastName : lastName,
@@ -24,9 +24,9 @@ exports.createUser = async (req,res,next) => {
             dob : dateOfBirth,
             active : activeOrNot
         }).then(
-            res.status(201).send('User Values Recived')
+            res.status(201).JSON({'success' : true , 'Message' : 'User Values Recived'})
         ).catch((error) => {
-            res.status(400).send('User Values Not Recived')
+            res.status(400).send({'success' : false , 'Message' : 'User Values Not Recived'})
             console.log(error)
         })
         }
@@ -37,6 +37,7 @@ exports.createUser = async (req,res,next) => {
 
 exports.getUserById = async (req,res,next) => {
     const userId = req.params.id
+
     console.log(userId)
     try{
         const user = await User.findOne({
@@ -44,7 +45,7 @@ exports.getUserById = async (req,res,next) => {
                 id : userId
             }
         })
-        if(User === null){
+        if(user === null){
             res.status(400).json({'success' : false , 'message' : 'User not Found' })
         }
         res.status(200).json({'success' : true , 'user' : user })
@@ -69,6 +70,7 @@ exports.deactivateUser = async (req,res,next) => {
 
 exports.deleteUser = async (req,res,next) => {
     const userId = req.params.id;
+
     try{
         if(userId == null){
             return res.status(400),json({'success' : false , 'message' : 'user not found'})

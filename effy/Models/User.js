@@ -34,6 +34,4 @@ const User = sequelize.define('User', {
   } 
 });
 
-console.log(User === sequelize.models.User);
-
 module.exports = User;

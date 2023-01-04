@@ -1,5 +1,6 @@
 const User = require('../Models/User');
 const Company = require('../Models/Company');
+const { where } = require('sequelize');
 
 exports.createCompany = async (req,res,next) => {
     try{
@@ -33,6 +34,7 @@ exports.getAllCompanies = async (req,res,next) => {
 
 exports.getCompaiesById = async (req,res,next) => {
     const Id = req.params.id
+    
     console.log(Id)
     try{
         const company = await Company.findOne({
@@ -40,7 +42,7 @@ exports.getCompaiesById = async (req,res,next) => {
                 id : Id
             }
         })
-        if(Id == null){
+        if(Id == null || company == null){
             res.status(400).json({'success' : false , 'message' : 'No company found , Bad Request'})
         }
         res.status(200).json({'success' : true , 'company' : company})
@@ -77,9 +79,51 @@ exports.updateCompany = async (req,res,next) => {
 }
 
 exports.addUserToCompany = async (req,res,next) => {
+    try{
+        const {firstName,lastName,email,designation,dateOfBirth,isActive} = req.body;
+        var activeOrNot = isActive ? 1 : 0;
+        let id = req.params.id;
 
+        await User.create({
+            firstName : firstName,
+            lastName : lastName,
+            email : email,
+            designation : designation,
+            dob : dateOfBirth,
+            active : activeOrNot, 
+            where : {
+                userId : id
+            }
+
+        }).then(
+            res.status(201).send('User Values Recived')
+        ).catch((error) => {
+            res.status(400).send('User Values Not Recived')
+            console.log(error)
+        })
+        }
+        catch(err){
+        console.log(err)
+        }
 }
 
 exports.removeUserFromCompany = async (req,res,next) => {
-    
+    const userId = req.params.id;
+    try{
+        if(userId == null){
+            return res.status(400),json({'success' : false , 'message' : 'user not found'})
+        }
+        await User.destroy({
+            where : {
+                UserId : userId
+            }
+        }).then(
+            res.status(200).json({'success' : true , 'message' : 'user deleted successfully'})
+        ).catch((err) => {
+            console.log(err)
+            res.status(400),json({'success' : false , 'message' : 'user not found'})
+        })
+    }catch {
+        return res.status(400),json({'success' : false , 'message' : 'Something went wrong'})
+    }
 }
