@@ -17,7 +17,7 @@ exports.signUp = ( async (req,res,next) => {
     const oldUser = await user.findOne({ where : { email : email } });
 
     if (oldUser) {
-      return res.status(409).json({ message : "User Already Exist. Please Login" });
+      return res.status(400).json({ message : "User Already Exist. Please Login" });
     }
 
     const saltRounds = 10;
@@ -31,7 +31,7 @@ exports.signUp = ( async (req,res,next) => {
         })}
         
     catch{
-        res.status(50).json({message : 'Aah, Something is Wrong !'})
+        res.status(500).json({message : 'Aah, Something is Wrong !'})
     }    
 })
 
